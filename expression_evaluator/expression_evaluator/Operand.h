@@ -5,9 +5,13 @@ namespace psands_cisp430_a3
 {
 	class Operand
 	{
+	private:
+		double _value;
 	public:
 		Operand();
+		Operand(double value);
 		~Operand();
+		double getValue();
 	};
 }
 
