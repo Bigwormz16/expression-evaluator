@@ -14,6 +14,8 @@ Email: w1541805@apps.losrios.edu
 #ifndef PSANDS_CISP430_QUEUE_H
 #define PSANDS_CISP430_QUEUE_H
 
+#include "List.h"
+
 /**
 @brief namespace for assignment 2
 */

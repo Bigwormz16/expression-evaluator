@@ -1,12 +1,16 @@
 #include "ExpressionEvaluator.h"
+#include "InfixParser.h"
 #include "Queue.h"
 #include "Token.h"
+#include "Tokenizer.h"
 
 psands_cisp430_a3::ExpressionEvaluator::ExpressionEvaluator()
 {
+	this->_infixParser = new InfixParser();
+	this->_tokenizer = new Tokenizer();
 }
 
-psands_cisp430_a3::ExpressionEvaluator::ExpressionEvaluator(std::string expression)
+psands_cisp430_a3::ExpressionEvaluator::ExpressionEvaluator(std::string expression) : ExpressionEvaluator()
 {
 	this->setExpression(expression);
 }
@@ -35,7 +39,8 @@ double psands_cisp430_a3::ExpressionEvaluator::getExpressionResult()
 	return 0.0;
 }
 
-std::ostream psands_cisp430_a3::ExpressionEvaluator::displayExpression(std::ostream ostream)
+std::ostream & psands_cisp430_a3::ExpressionEvaluator::displayExpression(std::ostream & out)
 {
-	ostream << this->_expression << std::endl;
+	out << this->_expression << std::endl;
+	return out;
 }

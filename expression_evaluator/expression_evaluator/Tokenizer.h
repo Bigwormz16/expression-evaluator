@@ -11,7 +11,13 @@ namespace psands_cisp430_a3
 	class Tokenizer
 	{
 	private:
-		psands_cisp430_a2::List<Token *> * _operandTokens;
+		Token * _additionToken, *_subtractionToken, *_multiplicationToken, *_divisionToken;
+		Token * _openParenToken, *_closeParenToken;
+		Token * _sinToken, *_cosToken, *_sqrtToken, *_absToken;
+		Token * _aToken, *_bToken, *_cToken, *_dToken;
+		void processOperand(std::string operand, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
+		void processOperator(std::string oprator, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
+		void processSpecial(std::string special, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
 	public:
 		Tokenizer();
 		~Tokenizer();

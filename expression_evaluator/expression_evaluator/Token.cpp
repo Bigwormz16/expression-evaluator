@@ -6,6 +6,17 @@ psands_cisp430_a3::Token::Token()
 {
 }
 
+psands_cisp430_a3::Token::Token(std::string tokenSymbol)
+{
+	this->_tokenSymbol = tokenSymbol;
+	this->_tokenType = BADTOKEN;
+}
+
+psands_cisp430_a3::Token::Token(std::string tokenSymbol, TokenType tokenType) : Token(tokenSymbol)
+{
+	this->_tokenType = tokenType;
+}
+
 psands_cisp430_a3::Token::Token(std::string tokenSymbol, TokenType tokenType, Operand * operand)
 {
 	this->_tokenSymbol = tokenSymbol;

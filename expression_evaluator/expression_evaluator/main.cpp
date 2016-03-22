@@ -1,4 +1,5 @@
 #include "BinaryOperator.h"
+#include "ExpressionEvaluator.h"
 #include "List.h"
 #include "Operand.h"
 
@@ -12,13 +13,18 @@ double add(double a, double b)
 
 int main(void)
 {
-	BinaryOperator * bo = new BinaryOperator(add);
+	//BinaryOperator * bo = new BinaryOperator(add);
 
-	List<Operand *> * operands = new List<Operand *>();
-	operands->add(new Operand(10));
-	operands->add(new Operand(5));
+	//List<Operand *> * operands = new List<Operand *>();
+	//operands->add(new Operand(10));
+	//operands->add(new Operand(5));
 
-	bo->Evaluate(operands);
+	//bo->Evaluate(operands);
+
+	ExpressionEvaluator * evaluator = new ExpressionEvaluator();
+
+	evaluator->setExpression("sin(A)");
+	evaluator->getExpressionResult();
 
 	return 0;
 }

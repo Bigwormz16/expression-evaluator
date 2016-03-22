@@ -11,7 +11,9 @@ namespace psands_cisp430_a3
 	{
 		OPERAND,
 		UNARYOPERATOR,
-		BINARYOPERATOR
+		BINARYOPERATOR,
+		SPECIAL,
+		BADTOKEN
 	};
 
 	class Token
@@ -23,6 +25,8 @@ namespace psands_cisp430_a3
 		AbstractOperator * _abstractOperator;
 	public:
 		Token();
+		Token(std::string tokenSymbol);
+		Token(std::string tokenSymbol, TokenType tokenType);
 		Token(std::string tokenSymbol, TokenType tokenType, Operand * operand);
 		Token(std::string tokenSymbol, TokenType tokenType, AbstractOperator * abstractOperator);
 		~Token();
