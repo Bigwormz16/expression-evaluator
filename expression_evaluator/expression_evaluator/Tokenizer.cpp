@@ -1,4 +1,5 @@
 #include <cmath>
+#include <regex>
 #include "Tokenizer.h"
 #include "BinaryOperator.h"
 #include "List.h"
@@ -34,4 +35,19 @@ psands_cisp430_a3::Tokenizer::Tokenizer()
 
 psands_cisp430_a3::Tokenizer::~Tokenizer()
 {
+}
+
+psands_cisp430_a2::Queue<psands_cisp430_a3::Token*>* psands_cisp430_a3::Tokenizer::getTokenQueue(std::string expression)
+{
+	psands_cisp430_a2::Queue<Token *> * result = new psands_cisp430_a2::Queue<Token *>();
+
+	std::regex operand("[a-zA-Z0-9]");
+
+	for (int i = 0; i < expression.length(); i++)
+	{
+		if (std::regex_match(expression.substr(i, 1), operand))
+		{
+
+		}
+	}
 }
