@@ -2,12 +2,21 @@
 #define PSANDS_CISP430_INFIXPARSER_H
 
 #include "Queue.h"
+#include "Stack.h"
 #include "Token.h"
 
 namespace psands_cisp430_a3
 {
 	class InfixParser
 	{
+	private:
+		void infixNextStateS1(psands_cisp430_a2::Queue<Token *> * input, psands_cisp430_a2::Queue<Token *> * output, psands_cisp430_a2::Stack<Token *> * operatorStack);
+		void infixNextStateS2(psands_cisp430_a2::Queue<Token *> * input, psands_cisp430_a2::Queue<Token *> * output, psands_cisp430_a2::Stack<Token *> * operatorStack);
+		void infixNextStateErr(psands_cisp430_a2::Queue<Token *> * input, psands_cisp430_a2::Queue<Token *> * output, psands_cisp430_a2::Stack<Token *> * operatorStack);
+		void infixNextStateU1(psands_cisp430_a2::Queue<Token *> * input, psands_cisp430_a2::Queue<Token *> * output, psands_cisp430_a2::Stack<Token *> * operatorStack);
+		void infixNextStateU2(psands_cisp430_a2::Queue<Token *> * input, psands_cisp430_a2::Queue<Token *> * output, psands_cisp430_a2::Stack<Token *> * operatorStack);
+		void infixNextStateUC(psands_cisp430_a2::Queue<Token *> * input, psands_cisp430_a2::Queue<Token *> * output, psands_cisp430_a2::Stack<Token *> * operatorStack);
+		
 	public:
 		InfixParser();
 		~InfixParser();

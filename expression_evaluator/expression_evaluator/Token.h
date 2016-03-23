@@ -30,6 +30,7 @@ namespace psands_cisp430_a3
 		Token(std::string tokenSymbol, TokenType tokenType, Operand * operand);
 		Token(std::string tokenSymbol, TokenType tokenType, AbstractOperator * abstractOperator);
 		~Token();
+		std::string getTokenSymbol();
 		TokenType getTokenType();
 		Operand * getOperand();
 		AbstractOperator * getOperator();

@@ -9,7 +9,7 @@ psands_cisp430_a3::AbstractOperator::~AbstractOperator()
 {
 }
 
-double psands_cisp430_a3::AbstractOperator::Evaluate(psands_cisp430_a2::List<Operand *> * operands)
+double psands_cisp430_a3::AbstractOperator::Evaluate(psands_cisp430_a2::List<double> * operands)
 {
 	if (this->_numberOfOperands != operands->getCount())
 	{

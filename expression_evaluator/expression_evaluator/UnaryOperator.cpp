@@ -14,9 +14,9 @@ psands_cisp430_a3::UnaryOperator::~UnaryOperator()
 {
 }
 
-double psands_cisp430_a3::UnaryOperator::Evaluate(psands_cisp430_a2::List<Operand*>* operands)
+double psands_cisp430_a3::UnaryOperator::Evaluate(psands_cisp430_a2::List<double>* operands)
 {
 	AbstractOperator::Evaluate(operands);
 
-	return this->operatorFunction(operands->getElementAt(0)->getValue());
+	return this->operatorFunction(operands->getElementAt(0));
 }

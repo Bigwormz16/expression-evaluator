@@ -23,7 +23,7 @@ int main(void)
 
 	ExpressionEvaluator * evaluator = new ExpressionEvaluator();
 
-	evaluator->setExpression("sin(A)");
+	evaluator->setExpression("A = A * (B + C) / D");
 	evaluator->getExpressionResult();
 
 	return 0;

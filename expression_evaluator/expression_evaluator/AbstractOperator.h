@@ -13,7 +13,7 @@ namespace psands_cisp430_a3
 	public:
 		AbstractOperator();
 		virtual ~AbstractOperator() = 0;
-		virtual double Evaluate(psands_cisp430_a2::List<Operand *> * operands);
+		virtual double Evaluate(psands_cisp430_a2::List<double> * operands);
 	};
 }
 

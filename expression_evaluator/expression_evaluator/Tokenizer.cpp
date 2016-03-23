@@ -60,7 +60,11 @@ void psands_cisp430_a3::Tokenizer::processOperator(std::string oprator, psands_c
 {
 	if (0 == oprator.length()) return;
 
-	if ("+" == oprator)
+	if ("=" == oprator)
+	{
+		tokenizedQueue->enqueue(this->_equalsToken);
+	}
+	else if ("+" == oprator)
 	{
 		tokenizedQueue->enqueue(this->_additionToken);
 	}
@@ -119,6 +123,7 @@ void psands_cisp430_a3::Tokenizer::processSpecial(std::string special, psands_ci
 psands_cisp430_a3::Tokenizer::Tokenizer()
 {
 	// Initialize the arithmetic operators that are supported by application
+	_equalsToken = new psands_cisp430_a3::Token("=");
 	_additionToken = new psands_cisp430_a3::Token("+", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::add));
 	_subtractionToken = new psands_cisp430_a3::Token("-", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::subtract));
 	_multiplicationToken = new psands_cisp430_a3::Token("*", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::multiply));
@@ -148,7 +153,7 @@ psands_cisp430_a2::Queue<psands_cisp430_a3::Token*>* psands_cisp430_a3::Tokenize
 	psands_cisp430_a2::Queue<psands_cisp430_a3::Token *> * result = new psands_cisp430_a2::Queue<psands_cisp430_a3::Token *>();
 
 	std::regex operand("[a-zA-Z0-9]");
-	std::regex oprator("[\+\-/\\*]");
+	std::regex oprator("[\+\-/\\*=]");
 	std::regex special("[()]");
 
 	std::string nextOperand = "";

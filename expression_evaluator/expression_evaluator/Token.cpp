@@ -24,6 +24,11 @@ psands_cisp430_a3::Token::Token(std::string tokenSymbol, TokenType tokenType, Op
 	this->_operand = operand;
 }
 
+std::string psands_cisp430_a3::Token::getTokenSymbol()
+{
+	return this->_tokenSymbol;
+}
+
 psands_cisp430_a3::Token::Token(std::string tokenSymbol, TokenType tokenType, AbstractOperator * abstractOperator)
 {
 	this->_tokenSymbol = tokenSymbol;

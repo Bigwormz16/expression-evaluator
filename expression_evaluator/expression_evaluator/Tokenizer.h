@@ -11,6 +11,7 @@ namespace psands_cisp430_a3
 	class Tokenizer
 	{
 	private:
+		Token * _equalsToken;
 		Token * _additionToken, *_subtractionToken, *_multiplicationToken, *_divisionToken;
 		Token * _openParenToken, *_closeParenToken;
 		Token * _sinToken, *_cosToken, *_sqrtToken, *_absToken;
