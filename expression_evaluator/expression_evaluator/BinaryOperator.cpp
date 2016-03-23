@@ -18,5 +18,6 @@ double psands_cisp430_a3::BinaryOperator::Evaluate(psands_cisp430_a2::List<doubl
 {
 	AbstractOperator::Evaluate(operands);
 
+	// operand elements are arriving in reverse order due to the behavior of postfix evaluation stack
 	return this->operatorFunction(operands->getElementAt(1), operands->getElementAt(0));
 }
