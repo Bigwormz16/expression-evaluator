@@ -117,6 +117,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Operand.cpp" />
     <ClCompile Include="Report.cpp" />
+    <ClCompile Include="Symboltable.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
     <ClCompile Include="UnaryOperator.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="Report.h" />
     <ClInclude Include="Slot.h" />
     <ClInclude Include="Stack.h" />
+    <ClInclude Include="Symboltable.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Tokenizer.h" />
     <ClInclude Include="UnaryOperator.h" />

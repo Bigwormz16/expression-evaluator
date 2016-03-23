@@ -12,6 +12,7 @@ using namespace psands_cisp430_a3;
 psands_cisp430_a3::ExpressionEvaluator::ExpressionEvaluator()
 {
 	this->_infixParser = new InfixParser();
+	this->_symbolTable = new Symboltable(30, 3, 10);
 	this->_tokenizer = new Tokenizer();
 }
 
@@ -22,6 +23,9 @@ psands_cisp430_a3::ExpressionEvaluator::ExpressionEvaluator(std::string expressi
 
 psands_cisp430_a3::ExpressionEvaluator::~ExpressionEvaluator()
 {
+	delete this->_infixParser;
+	delete this->_symbolTable;
+	delete this->_tokenizer;
 }
 
 void psands_cisp430_a3::ExpressionEvaluator::setExpression(std::string expression)

@@ -7,7 +7,6 @@
 #define PSANDS_CISP430_SLOT_H
 
 #include <fstream>
-#include "Str.h"
 
 namespace psands_cisp430
 {
