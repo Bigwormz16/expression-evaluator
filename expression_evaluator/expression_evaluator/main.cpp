@@ -23,7 +23,7 @@ int main(void)
 
 	ExpressionEvaluator * evaluator = new ExpressionEvaluator();
 
-	evaluator->setExpression("A = A * (B + C) / D");
+	evaluator->setExpression("A = 25 * 100");
 	evaluator->getExpressionResult();
 
 	return 0;

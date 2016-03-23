@@ -18,7 +18,6 @@ namespace psands_cisp430_a3
 		Token * _aToken, *_bToken, *_cToken, *_dToken;
 		void processOperand(std::string operand, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
 		void processOperator(std::string oprator, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
-		void processSpecial(std::string special, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
 	public:
 		Tokenizer();
 		~Tokenizer();

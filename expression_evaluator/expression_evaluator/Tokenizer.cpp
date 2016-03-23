@@ -96,27 +96,17 @@ void psands_cisp430_a3::Tokenizer::processOperator(std::string oprator, psands_c
 	{
 		tokenizedQueue->enqueue(this->_absToken);
 	}
-	else
-	{
-		tokenizedQueue->enqueue(new Token(oprator));
-	}
-}
-
-void psands_cisp430_a3::Tokenizer::processSpecial(std::string special, psands_cisp430_a2::Queue<Token *> * tokenizedQueue)
-{
-	if (0 == special.length()) return;
-
-	if ("(" == special)
+	else if ("(" == oprator)
 	{
 		tokenizedQueue->enqueue(this->_openParenToken);
 	}
-	else if (")" == special)
+	else if (")" == oprator)
 	{
 		tokenizedQueue->enqueue(this->_closeParenToken);
 	}
 	else
 	{
-		tokenizedQueue->enqueue(new Token(special));
+		tokenizedQueue->enqueue(new Token(oprator));
 	}
 }
 
@@ -153,12 +143,10 @@ psands_cisp430_a2::Queue<psands_cisp430_a3::Token*>* psands_cisp430_a3::Tokenize
 	psands_cisp430_a2::Queue<psands_cisp430_a3::Token *> * result = new psands_cisp430_a2::Queue<psands_cisp430_a3::Token *>();
 
 	std::regex operand("[a-zA-Z0-9]");
-	std::regex oprator("[\+\-/\\*=]");
-	std::regex special("[()]");
+	std::regex oprator("[\+\-/\\*=()]");
 
 	std::string nextOperand = "";
 	std::string nextOperator = "";
-	std::string nextSpecial = "";
 
 	for (int i = 0; i < expression.length(); i++)
 	{
@@ -168,21 +156,11 @@ psands_cisp430_a2::Queue<psands_cisp430_a3::Token*>* psands_cisp430_a3::Tokenize
 		{
 			nextOperand += currentCharacter;
 			processOperator(nextOperator, result);
-			processSpecial(nextSpecial, result);
 			nextOperator = "";
-			nextSpecial = "";
 		}
 		else if (std::regex_match(currentCharacter, oprator))
 		{
 			nextOperator = currentCharacter;
-			processOperand(nextOperand, result);
-			processSpecial(nextSpecial, result);
-			nextOperand = "";
-			nextSpecial = "";
-		}
-		else if (std::regex_match(currentCharacter, special))
-		{
-			nextSpecial = currentCharacter;
 			processOperand(nextOperand, result);
 			processOperator(nextOperator, result);
 			nextOperand = "";
@@ -193,7 +171,6 @@ psands_cisp430_a2::Queue<psands_cisp430_a3::Token*>* psands_cisp430_a3::Tokenize
 	// process final operand/operator
 	processOperand(nextOperand, result);
 	processOperator(nextOperator, result);
-	processSpecial(nextSpecial, result);
 
 	return result;
 }
