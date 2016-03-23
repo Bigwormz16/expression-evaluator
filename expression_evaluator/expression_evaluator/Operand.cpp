@@ -1,19 +1,26 @@
 #include "Operand.h"
 
-psands_cisp430_a3::Operand::Operand()
+using namespace psands_cisp430_a3;
+
+Operand::Operand()
 {
 }
 
-psands_cisp430_a3::Operand::Operand(double value)
+Operand::Operand(double value)
 {
 	this->_value = value;
 }
 
-psands_cisp430_a3::Operand::~Operand()
+Operand::~Operand()
 {
 }
 
-double psands_cisp430_a3::Operand::getValue()
+double Operand::getValue()
 {
 	return this->_value;
+}
+
+void Operand::setValue(double value)
+{
+	this->_value = value;
 }

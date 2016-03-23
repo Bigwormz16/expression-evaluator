@@ -49,12 +49,9 @@ double psands_cisp430_a3::ExpressionEvaluator::getExpressionResult()
 	psands_cisp430_a2::Queue<Token *> * postfixTokenQueue = this->_infixParser->getPostfixTokenQueue(infixTokenQueue);
 
 	// evaluate the postfixTokenQueue
-	Stack<double> * evaluationStack = new Stack<double>();
+	Stack<Operand *> * evaluationStack = new Stack<Operand *>();
 
-	// on first pass, do not evaluate expression (ignore "=" and first operand)
-	postfixTokenQueue->dequeue(); // removing the first operand from evaluation
-
-	List<double> * operandsToEvaluate = new List<double>();
+	List<Operand *> * operandsToEvaluate = new List<Operand *>();
 
 	while (!postfixTokenQueue->isEmpty())
 	{
@@ -62,7 +59,7 @@ double psands_cisp430_a3::ExpressionEvaluator::getExpressionResult()
 
 		if (OPERAND == currentTokenType)
 		{
-			evaluationStack->push(postfixTokenQueue->dequeue()->getOperand()->getValue());
+			evaluationStack->push(postfixTokenQueue->dequeue()->getOperand());
 		}
 		else if (UNARYOPERATOR == currentTokenType)
 		{
@@ -75,11 +72,21 @@ double psands_cisp430_a3::ExpressionEvaluator::getExpressionResult()
 			operandsToEvaluate->add(evaluationStack->pop());
 			operandsToEvaluate->add(evaluationStack->pop()); 		
 		}
+		else if (ASSIGNMENTOPERATOR == currentTokenType)
+		{
+			Operand * assignedOperand = evaluationStack->pop();
+			Operand * assigneeOperand = evaluationStack->pop();
+
+			assigneeOperand->setValue(assignedOperand->getValue());
+			evaluationStack->push(assigneeOperand);
+
+			postfixTokenQueue->dequeue();
+		}
 
 		if (UNARYOPERATOR == currentTokenType ||
 			BINARYOPERATOR == currentTokenType)
 		{
-			double evaluatedResult = postfixTokenQueue->dequeue()->getOperator()->Evaluate(operandsToEvaluate);
+			Operand * evaluatedResult = postfixTokenQueue->dequeue()->getOperator()->Evaluate(operandsToEvaluate);
 			evaluationStack->push(evaluatedResult);
 
 			// after evaluating operands, remove them from the list for the next operation
@@ -87,7 +94,7 @@ double psands_cisp430_a3::ExpressionEvaluator::getExpressionResult()
 		}
 	}
 
-	double result = evaluationStack->pop();
+	double result = evaluationStack->pop()->getValue();
 
 	// clean up allocations
 	delete infixTokenQueue;
@@ -95,6 +102,11 @@ double psands_cisp430_a3::ExpressionEvaluator::getExpressionResult()
 	delete operandsToEvaluate;
 	
 	return result;
+}
+
+void psands_cisp430_a3::ExpressionEvaluator::evaluateExpression()
+{
+	this->getExpressionResult();
 }
 
 std::ostream & psands_cisp430_a3::ExpressionEvaluator::displayExpression(std::ostream & out)

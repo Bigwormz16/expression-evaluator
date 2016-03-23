@@ -30,15 +30,7 @@ void psands_cisp430_a3::InfixParser::infixNextStateU2(psands_cisp430_a2::Queue<T
 {
 	while (!operatorStack->isEmpty())
 	{
-		// for now, do not worry about "=" operator in expressions
-		if ("=" == operatorStack->peek()->getTokenSymbol())
-		{
-			operatorStack->pop();
-		}
-		else
-		{
-			output->enqueue(operatorStack->pop());
-		}
+		output->enqueue(operatorStack->pop());
 	}
 }
 
@@ -89,10 +81,10 @@ Queue<Token*>* psands_cisp430_a3::InfixParser::getPostfixTokenQueue(Queue<Token*
 			{
 				this->infixNextStateErr(infixTokenQueue, result, s2);
 			}
-			else if ("sin" == infixTokenQueue->peek()->getTokenSymbol() ||
-				"cos" == infixTokenQueue->peek()->getTokenSymbol() ||
-				"sqrt" == infixTokenQueue->peek()->getTokenSymbol() ||
-				"abs" == infixTokenQueue->peek()->getTokenSymbol())
+			else if ("sin" == s2->peek()->getTokenSymbol() ||
+				"cos" == s2->peek()->getTokenSymbol() ||
+				"sqrt" == s2->peek()->getTokenSymbol() ||
+				"abs" == s2->peek()->getTokenSymbol())
 			{
 				this->infixNextStateU1(infixTokenQueue, result, s2);
 			}
@@ -116,10 +108,10 @@ Queue<Token*>* psands_cisp430_a3::InfixParser::getPostfixTokenQueue(Queue<Token*
 			{
 				this->infixNextStateErr(infixTokenQueue, result, s2);
 			}
-			else if ("sin" == infixTokenQueue->peek()->getTokenSymbol() ||
-				"cos" == infixTokenQueue->peek()->getTokenSymbol() ||
-				"sqrt" == infixTokenQueue->peek()->getTokenSymbol() ||
-				"abs" == infixTokenQueue->peek()->getTokenSymbol())
+			else if ("sin" == s2->peek()->getTokenSymbol() ||
+				"cos" == s2->peek()->getTokenSymbol() ||
+				"sqrt" == s2->peek()->getTokenSymbol() ||
+				"abs" == s2->peek()->getTokenSymbol())
 			{
 				this->infixNextStateU1(infixTokenQueue, result, s2);
 			}

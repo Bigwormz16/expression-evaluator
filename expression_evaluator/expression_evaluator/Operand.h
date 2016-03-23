@@ -12,6 +12,7 @@ namespace psands_cisp430_a3
 		Operand(double value);
 		~Operand();
 		double getValue();
+		void setValue(double value);
 	};
 }
 

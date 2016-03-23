@@ -36,7 +36,11 @@ void psands_cisp430_a3::Tokenizer::processOperand(std::string operand, psands_ci
 		catch(std::exception e)
 		{
 			Operand * oprnd = this->_symboltable->get(operand);
-
+			if (nullptr == oprnd)
+			{
+				oprnd = new Operand(0.0);
+				this->_symboltable->insert(operand, oprnd);
+			}
 			tokenizedQueue->enqueue(new Token(operand, OPERAND, oprnd));
 		}
 	}
@@ -99,22 +103,22 @@ void psands_cisp430_a3::Tokenizer::processOperator(std::string oprator, psands_c
 psands_cisp430_a3::Tokenizer::Tokenizer()
 {
 	// Initialize the arithmetic operators that are supported by application
-	_equalsToken = new psands_cisp430_a3::Token("=");
-	_additionToken = new psands_cisp430_a3::Token("+", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::add));
-	_subtractionToken = new psands_cisp430_a3::Token("-", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::subtract));
-	_multiplicationToken = new psands_cisp430_a3::Token("*", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::multiply));
-	_divisionToken = new psands_cisp430_a3::Token("/", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::divide));
-	_sinToken = new psands_cisp430_a3::Token("sin", UNARYOPERATOR, new UnaryOperator(psands_cisp430_a3::sin));
-	_cosToken = new psands_cisp430_a3::Token("cos", UNARYOPERATOR, new UnaryOperator(psands_cisp430_a3::cos));
-	_sqrtToken = new psands_cisp430_a3::Token("sqrt", UNARYOPERATOR, new UnaryOperator(psands_cisp430_a3::sqrt));
-	_absToken = new psands_cisp430_a3::Token("abs", UNARYOPERATOR, new UnaryOperator(psands_cisp430_a3::abs));
+	this->_equalsToken = new psands_cisp430_a3::Token("=", ASSIGNMENTOPERATOR);
+	this->_additionToken = new psands_cisp430_a3::Token("+", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::add));
+	this->_subtractionToken = new psands_cisp430_a3::Token("-", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::subtract));
+	this->_multiplicationToken = new psands_cisp430_a3::Token("*", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::multiply));
+	this->_divisionToken = new psands_cisp430_a3::Token("/", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::divide));
+	this->_sinToken = new psands_cisp430_a3::Token("sin", UNARYOPERATOR, new UnaryOperator(psands_cisp430_a3::sin));
+	this->_cosToken = new psands_cisp430_a3::Token("cos", UNARYOPERATOR, new UnaryOperator(psands_cisp430_a3::cos));
+	this->_sqrtToken = new psands_cisp430_a3::Token("sqrt", UNARYOPERATOR, new UnaryOperator(psands_cisp430_a3::sqrt));
+	this->_absToken = new psands_cisp430_a3::Token("abs", UNARYOPERATOR, new UnaryOperator(psands_cisp430_a3::abs));
 
 	// special tokens
-	_openParenToken = new psands_cisp430_a3::Token("(", SPECIAL);
-	_closeParenToken = new psands_cisp430_a3::Token(")", SPECIAL);
+	this->_openParenToken = new psands_cisp430_a3::Token("(", SPECIAL);
+	this->_closeParenToken = new psands_cisp430_a3::Token(")", SPECIAL);
 }
 
-psands_cisp430_a3::Tokenizer::Tokenizer(Symboltable * symboltable)
+psands_cisp430_a3::Tokenizer::Tokenizer(Symboltable * symboltable) : Tokenizer()
 {
 	this->_symboltable = symboltable;
 }
@@ -128,7 +132,7 @@ psands_cisp430_a2::Queue<psands_cisp430_a3::Token*>* psands_cisp430_a3::Tokenize
 {
 	psands_cisp430_a2::Queue<psands_cisp430_a3::Token *> * result = new psands_cisp430_a2::Queue<psands_cisp430_a3::Token *>();
 
-	std::regex operand("[a-zA-Z0-9]");
+	std::regex operand("[a-zA-Z0-9\.]");
 	std::regex oprator("[\+\-/\\*=()]");
 
 	std::string nextOperand = "";
@@ -141,22 +145,22 @@ psands_cisp430_a2::Queue<psands_cisp430_a3::Token*>* psands_cisp430_a3::Tokenize
 		if (std::regex_match(currentCharacter, operand))
 		{
 			nextOperand += currentCharacter;
-			processOperator(nextOperator, result);
+			this->processOperator(nextOperator, result);
 			nextOperator = "";
 		}
 		else if (std::regex_match(currentCharacter, oprator))
 		{
 			nextOperator = currentCharacter;
-			processOperand(nextOperand, result);
-			processOperator(nextOperator, result);
+			this->processOperand(nextOperand, result);
+			this->processOperator(nextOperator, result);
 			nextOperand = "";
 			nextOperator = "";
 		}
 	}
 
 	// process final operand/operator
-	processOperand(nextOperand, result);
-	processOperator(nextOperator, result);
+	this->processOperand(nextOperand, result);
+	this->processOperator(nextOperator, result);
 
 	return result;
 }

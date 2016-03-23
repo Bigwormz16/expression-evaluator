@@ -3,6 +3,7 @@
 
 #include <functional>
 #include "AbstractOperator.h"
+#include "Operand.h"
 
 namespace psands_cisp430_a3
 {
@@ -15,7 +16,7 @@ namespace psands_cisp430_a3
 		BinaryOperator();
 		BinaryOperator(const std::function<double(double, double)> & operatorFunction);
 		~BinaryOperator();
-		double Evaluate(psands_cisp430_a2::List<double> * operands) override;
+		Operand * Evaluate(psands_cisp430_a2::List<Operand *> * operands) override;
 	};
 }
 

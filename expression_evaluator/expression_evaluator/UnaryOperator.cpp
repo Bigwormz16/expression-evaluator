@@ -1,22 +1,27 @@
 #include "UnaryOperator.h"
+#include "Operand.h"
 
-psands_cisp430_a3::UnaryOperator::UnaryOperator()
+using namespace psands_cisp430_a2;
+using namespace psands_cisp430_a3;
+
+UnaryOperator::UnaryOperator()
 {
 	this->_numberOfOperands = 1;
 }
 
-psands_cisp430_a3::UnaryOperator::UnaryOperator(const std::function<double(double)>& operatorFunction) : UnaryOperator()
+UnaryOperator::UnaryOperator(const std::function<double(double)>& operatorFunction) : UnaryOperator()
 {
 	this->operatorFunction = operatorFunction;
 }
 
-psands_cisp430_a3::UnaryOperator::~UnaryOperator()
+UnaryOperator::~UnaryOperator()
 {
 }
 
-double psands_cisp430_a3::UnaryOperator::Evaluate(psands_cisp430_a2::List<double>* operands)
+Operand * UnaryOperator::Evaluate(psands_cisp430_a2::List<Operand * >* operands)
 {
 	AbstractOperator::Evaluate(operands);
 
-	return this->operatorFunction(operands->getElementAt(0));
+	Operand * result = new Operand(this->operatorFunction(operands->getElementAt(0)->getValue()));
+	return result;
 }
