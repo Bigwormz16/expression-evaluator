@@ -124,7 +124,9 @@
   <ItemGroup>
     <ClInclude Include="AbstractOperator.h" />
     <ClInclude Include="BinaryOperator.h" />
+    <ClInclude Include="Bucket.h" />
     <ClInclude Include="ExpressionEvaluator.h" />
+    <ClInclude Include="Hashtable.h" />
     <ClInclude Include="InfixParser.h" />
     <ClInclude Include="LinkedListNode.h" />
     <ClInclude Include="List.h" />
@@ -132,6 +134,7 @@
     <ClInclude Include="Operand.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Report.h" />
+    <ClInclude Include="Slot.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Tokenizer.h" />
