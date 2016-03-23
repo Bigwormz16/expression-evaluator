@@ -90,7 +90,7 @@ double psands_cisp430_a3::ExpressionEvaluator::getExpressionResult()
 	delete postfixTokenQueue;
 	delete operandsToEvaluate;
 	
-	return evaluationStack->pop();
+	return result;
 }
 
 std::ostream & psands_cisp430_a3::ExpressionEvaluator::displayExpression(std::ostream & out)
