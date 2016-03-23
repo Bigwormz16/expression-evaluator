@@ -4,6 +4,7 @@
 #include <string>
 #include "List.h"
 #include "Queue.h"
+#include "Symboltable.h"
 #include "Token.h"
 
 namespace psands_cisp430_a3
@@ -11,15 +12,16 @@ namespace psands_cisp430_a3
 	class Tokenizer
 	{
 	private:
+		Symboltable * _symboltable;
 		Token * _equalsToken;
 		Token * _additionToken, *_subtractionToken, *_multiplicationToken, *_divisionToken;
 		Token * _openParenToken, *_closeParenToken;
 		Token * _sinToken, *_cosToken, *_sqrtToken, *_absToken;
-		Token * _aToken, *_bToken, *_cToken, *_dToken;
 		void processOperand(std::string operand, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
 		void processOperator(std::string oprator, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
 	public:
 		Tokenizer();
+		Tokenizer(Symboltable * symboltable);
 		~Tokenizer();
 		psands_cisp430_a2::Queue<Token *> * getTokenQueue(std::string expression);
 	};

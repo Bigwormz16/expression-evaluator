@@ -8,7 +8,7 @@
 namespace psands_cisp430_a3
 {
 	class Symboltable :
-		public psands_cisp430::Hashtable<std::string, Operand>
+		public psands_cisp430::Hashtable<std::string, Operand *>
 	{
 	protected:
 		int hashFunction(std::string key) override;

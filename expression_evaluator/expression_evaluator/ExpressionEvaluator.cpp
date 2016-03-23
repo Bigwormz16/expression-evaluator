@@ -13,7 +13,7 @@ psands_cisp430_a3::ExpressionEvaluator::ExpressionEvaluator()
 {
 	this->_infixParser = new InfixParser();
 	this->_symbolTable = new Symboltable(30, 3, 10);
-	this->_tokenizer = new Tokenizer();
+	this->_tokenizer = new Tokenizer(this->_symbolTable);
 }
 
 psands_cisp430_a3::ExpressionEvaluator::ExpressionEvaluator(std::string expression) : ExpressionEvaluator()

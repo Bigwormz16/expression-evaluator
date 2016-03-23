@@ -26,22 +26,6 @@ void psands_cisp430_a3::Tokenizer::processOperand(std::string operand, psands_ci
 	{
 		this->processOperator(operand, tokenizedQueue);
 	}
-	else if ("A" == operand)
-	{
-		tokenizedQueue->enqueue(this->_aToken);
-	}
-	else if ("B" == operand)
-	{
-		tokenizedQueue->enqueue(this->_bToken);
-	}
-	else if ("C" == operand)
-	{
-		tokenizedQueue->enqueue(this->_cToken);
-	}
-	else if ("D" == operand)
-	{
-		tokenizedQueue->enqueue(this->_dToken);
-	}
 	else
 	{
 		try
@@ -51,7 +35,9 @@ void psands_cisp430_a3::Tokenizer::processOperand(std::string operand, psands_ci
 		}
 		catch(std::exception e)
 		{
-			tokenizedQueue->enqueue(new Token(operand));
+			Operand * oprnd = this->_symboltable->get(operand);
+
+			tokenizedQueue->enqueue(new Token(operand, OPERAND, oprnd));
 		}
 	}
 }
@@ -126,16 +112,16 @@ psands_cisp430_a3::Tokenizer::Tokenizer()
 	// special tokens
 	_openParenToken = new psands_cisp430_a3::Token("(", SPECIAL);
 	_closeParenToken = new psands_cisp430_a3::Token(")", SPECIAL);
+}
 
-	// Initialize operand tokens
-	_aToken = new psands_cisp430_a3::Token("A", OPERAND, new Operand(5));
-	_bToken = new psands_cisp430_a3::Token("B", OPERAND, new Operand(10));
-	_cToken = new psands_cisp430_a3::Token("C", OPERAND, new Operand(-1));
-	_dToken = new psands_cisp430_a3::Token("D", OPERAND, new Operand(2));
+psands_cisp430_a3::Tokenizer::Tokenizer(Symboltable * symboltable)
+{
+	this->_symboltable = symboltable;
 }
 
 psands_cisp430_a3::Tokenizer::~Tokenizer()
 {
+	// do not delete symbotable as that is handled elsewhere
 }
 
 psands_cisp430_a2::Queue<psands_cisp430_a3::Token*>* psands_cisp430_a3::Tokenizer::getTokenQueue(std::string expression)

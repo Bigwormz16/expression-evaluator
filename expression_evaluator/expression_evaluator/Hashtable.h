@@ -25,6 +25,9 @@ namespace psands_cisp430
 		// INSERT
 		void insert(TKey key, TData data);
 
+		// RETRIEVE
+		TData get(TKey key);
+
 		// IMPORT / EXPORT
 		void writeToDisk(char* filename);
 		void restoreToMem(char* filename);
@@ -53,6 +56,9 @@ namespace psands_cisp430
 
 		// INSERT
 		void insert(TKey key, TData data, int hashIdx);
+
+		// RETRIEVAL
+		TData get(TKey key, int hashIdx);
 
 		// REPORTING
 		void search(std::ostream& outstr, TKey key, int hashIdx);
@@ -98,6 +104,13 @@ namespace psands_cisp430
 	{
 		int hashIdx = this->hashFunction(key);
 		this->insert(key, data, hashIdx);
+	}
+
+	template<class TKey, class TData>
+	inline TData Hashtable<TKey, TData>::get(TKey key)
+	{
+		int hashIdx = this->hashFunction(key);
+		return this->get(key, hashIdx);
 	}
 
 	template<class TKey, class TData>
@@ -260,6 +273,27 @@ namespace psands_cisp430
 				int overflowHashIdx = this->getNextAvailableOverflowIdx();
 				this->_buckets[hashIdx]->setOverflowIdx(overflowHashIdx);
 				this->insert(key, data, overflowHashIdx);
+			}
+		}
+	}
+
+	template<class TKey, class TData>
+	inline TData Hashtable<TKey, TData>::get(TKey key, int hashIdx)
+	{
+		if (this->_buckets[hashIdx]->hasMatch(key))
+		{
+			int slotIdx = this->_buckets[hashIdx]->getSlotNumberByKey(key);
+			return this->_buckets[hashIdx]->getData(slotIdx);
+		}
+		else
+		{
+			if (this->_buckets[hashIdx]->hasAvailableOverflow())
+			{
+				return this->get(key, this->_buckets[hashIdx]->getOverflowIdx());
+			}
+			else
+			{
+				return TData();
 			}
 		}
 	}
