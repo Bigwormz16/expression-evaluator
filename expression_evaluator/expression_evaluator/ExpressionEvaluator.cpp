@@ -55,11 +55,12 @@ double ExpressionEvaluator::getExpressionResult()
 
 	while (!postfixTokenQueue->isEmpty())
 	{
-		TokenType currentTokenType = postfixTokenQueue->peek()->getTokenType();
+		Token * currentToken = postfixTokenQueue->dequeue();
+		TokenType currentTokenType = currentToken->getTokenType();
 
 		if (OPERAND == currentTokenType)
 		{
-			evaluationStack->push(postfixTokenQueue->dequeue()->getOperand());
+			evaluationStack->push(currentToken->getOperand());
 		}
 		else if (UNARYOPERATOR == currentTokenType)
 		{
@@ -79,19 +80,19 @@ double ExpressionEvaluator::getExpressionResult()
 
 			assigneeOperand->setValue(assignedOperand->getValue());
 			evaluationStack->push(assigneeOperand);
-
-			postfixTokenQueue->dequeue();
 		}
 
 		if (UNARYOPERATOR == currentTokenType ||
 			BINARYOPERATOR == currentTokenType)
 		{
-			Operand * evaluatedResult = postfixTokenQueue->dequeue()->getOperator()->Evaluate(operandsToEvaluate);
+			Operand * evaluatedResult = currentToken->getOperator()->Evaluate(operandsToEvaluate);
 			evaluationStack->push(evaluatedResult);
 
 			// after evaluating operands, remove them from the list for the next operation
 			operandsToEvaluate->removeAll();
 		}
+
+		delete currentToken;
 	}
 
 	double result = evaluationStack->pop()->getValue();

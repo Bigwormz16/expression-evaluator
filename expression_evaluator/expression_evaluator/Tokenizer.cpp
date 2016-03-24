@@ -129,6 +129,18 @@ Tokenizer::Tokenizer(Symboltable * symboltable) : Tokenizer()
 Tokenizer::~Tokenizer()
 {
 	// do not delete symbotable as that is handled elsewhere
+
+	delete this->_equalsToken;
+	delete this->_additionToken;
+	delete this->_subtractionToken;
+	delete this->_multiplicationToken;
+	delete this->_divisionToken;
+	delete this->_sinToken;
+	delete this->_cosToken;
+	delete this->_sqrtToken;
+	delete this->_absToken;
+	delete this->_openParenToken;
+	delete this->_closeParenToken;
 }
 
 Queue<Token*>* Tokenizer::getTokenQueue(std::string expression)
