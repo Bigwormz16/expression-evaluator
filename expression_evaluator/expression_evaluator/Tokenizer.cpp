@@ -20,7 +20,14 @@ namespace psands_cisp430_a3 {
 	double sqrt(double p1) { return std::sqrt(p1); }
 	double abs(double p1) { return std::abs(p1); }
 }
-
+// to this point the operand has been the combination of sequential characters fitting in a-z, A-Z, 0-9, and the . character
+// first step is to determine if the combination of characters actually represents an operator: "sin", "cos", "sqrt", or "abs" for our purposes
+// if it does, then process as operator
+// otherwise, determine if the characters make up a numeric value, then
+	// create a new operand token 
+// if it is actually a collection of characters and numbers, then it is a variable
+	// retrieve value from symboltable or create new entry if it does not exist
+	// store this symboltable operand as a token
 void Tokenizer::processOperand(std::string operand, Queue<Token *> * tokenizedQueue)
 {
 	if (0 == operand.length()) return;
@@ -143,6 +150,12 @@ Tokenizer::~Tokenizer()
 	delete this->_closeParenToken;
 }
 
+// take the expression one character at a time,
+	// if the current character matches a known operand pattern, then start building a concatenation of the operand symbol
+	// if the current character matches a known operator pattern, then it should be a single character operator pattern
+		// for each operator processed, process it immediately, as it should only be a single character
+		// for each operand character processed, build on it until an operator is detected, only then process it
+	// at the end, process any remaining operand or operator tokens
 Queue<Token*>* Tokenizer::getTokenQueue(std::string expression)
 {
 	Queue<Token *> * result = new Queue<Token *>();

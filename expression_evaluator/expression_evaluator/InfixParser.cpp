@@ -52,6 +52,9 @@ InfixParser::~InfixParser()
 {
 }
 
+// store the completed postfix expression in a queue,
+// store the intermediate operators (for priority) in a stack
+// using the logic behind the NextState Pushdown Transducer, process each infix token in order
 Queue<Token*>* InfixParser::getPostfixTokenQueue(Queue<Token*>* infixTokenQueue)
 {
 	Queue<Token *> * result = new Queue<Token*>(); // this is where the postfix expression will end up
