@@ -1,3 +1,8 @@
+// Author: Peter Sands - W1541805
+// Course: CISP 430 - Wed 6:30
+// Spring 2016
+// Assign 3
+
 #include <stdexcept>
 #include "AbstractOperator.h"
 #include "Operand.h"
