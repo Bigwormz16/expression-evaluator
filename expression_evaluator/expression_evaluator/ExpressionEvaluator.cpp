@@ -6,6 +6,7 @@
 #include "Token.h"
 #include "Tokenizer.h"
 
+using namespace std;
 using namespace psands_cisp430_a2;
 using namespace psands_cisp430_a3;
 
@@ -16,7 +17,7 @@ ExpressionEvaluator::ExpressionEvaluator()
 	this->_tokenizer = new Tokenizer(this->_symbolTable);
 }
 
-ExpressionEvaluator::ExpressionEvaluator(std::string expression) : ExpressionEvaluator()
+ExpressionEvaluator::ExpressionEvaluator(string expression) : ExpressionEvaluator()
 {
 	this->setExpression(expression);
 }
@@ -28,9 +29,14 @@ ExpressionEvaluator::~ExpressionEvaluator()
 	delete this->_tokenizer;
 }
 
-void ExpressionEvaluator::setExpression(std::string expression)
+void ExpressionEvaluator::setExpression(string expression)
 {
 	this->_expression = expression;
+}
+
+double ExpressionEvaluator::getExpressionResult()
+{
+	return this->getExpressionResult(this->_expression);
 }
 
 /*
@@ -43,9 +49,9 @@ void ExpressionEvaluator::setExpression(std::string expression)
 		the result of the operation method is added to the evaluation stack
 		a well-formed postfix expression should result in a single value remaining in the evaluation stack, which is the result of the expression.
 */
-double ExpressionEvaluator::getExpressionResult()
+double ExpressionEvaluator::getExpressionResult(string expression)
 {
-	Queue<Token *> * infixTokenQueue = this->_tokenizer->getTokenQueue(this->_expression);
+	Queue<Token *> * infixTokenQueue = this->_tokenizer->getTokenQueue(expression);
 	Queue<Token *> * postfixTokenQueue = this->_infixParser->getPostfixTokenQueue(infixTokenQueue);
 
 	// evaluate the postfixTokenQueue
@@ -67,13 +73,13 @@ double ExpressionEvaluator::getExpressionResult()
 		else if (UNARYOPERATOR == currentTokenType)
 		{
 			// unary operators need one operand
-			operandsToEvaluate->add(evaluationStack->pop()); 
+			operandsToEvaluate->add(evaluationStack->pop());
 		}
 		else if (BINARYOPERATOR == currentTokenType)
 		{
 			// binary operators get two operands	
 			operandsToEvaluate->add(evaluationStack->pop());
-			operandsToEvaluate->add(evaluationStack->pop()); 		
+			operandsToEvaluate->add(evaluationStack->pop());
 		}
 		else if (ASSIGNMENTOPERATOR == currentTokenType)
 		{
@@ -101,7 +107,7 @@ double ExpressionEvaluator::getExpressionResult()
 	delete infixTokenQueue;
 	delete postfixTokenQueue;
 	delete operandsToEvaluate;
-	
+
 	return result;
 }
 
@@ -110,8 +116,8 @@ void ExpressionEvaluator::evaluateExpression()
 	this->getExpressionResult();
 }
 
-std::ostream & ExpressionEvaluator::displayExpression(std::ostream & out)
+ostream & ExpressionEvaluator::displayExpression(ostream & out)
 {
-	out << this->_expression << std::endl;
+	out << this->_expression << endl;
 	return out;
 }

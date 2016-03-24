@@ -13,6 +13,8 @@ int main(void)
 	evaluator->setExpression("alpha = 5");
 	evaluator->evaluateExpression();
 
+	evaluator->getExpressionResult("alpha");
+
 	evaluator->setExpression("beta = 10");
 	evaluator->evaluateExpression();
 
