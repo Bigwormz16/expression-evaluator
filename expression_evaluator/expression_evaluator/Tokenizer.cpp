@@ -7,6 +7,9 @@
 #include "Token.h"
 #include "UnaryOperator.h"
 
+using namespace psands_cisp430_a2;
+using namespace psands_cisp430_a3;
+
 namespace psands_cisp430_a3 {
 	double add(double p1, double p2) { return p1 + p2; }
 	double subtract(double p1, double p2) { return p1 - p2; }
@@ -18,7 +21,7 @@ namespace psands_cisp430_a3 {
 	double abs(double p1) { return std::abs(p1); }
 }
 
-void psands_cisp430_a3::Tokenizer::processOperand(std::string operand, psands_cisp430_a2::Queue<Token *> * tokenizedQueue)
+void Tokenizer::processOperand(std::string operand, Queue<Token *> * tokenizedQueue)
 {
 	if (0 == operand.length()) return;
 
@@ -46,7 +49,7 @@ void psands_cisp430_a3::Tokenizer::processOperand(std::string operand, psands_ci
 	}
 }
 
-void psands_cisp430_a3::Tokenizer::processOperator(std::string oprator, psands_cisp430_a2::Queue<Token *> * tokenizedQueue)
+void Tokenizer::processOperator(std::string oprator, Queue<Token *> * tokenizedQueue)
 {
 	if (0 == oprator.length()) return;
 
@@ -100,37 +103,37 @@ void psands_cisp430_a3::Tokenizer::processOperator(std::string oprator, psands_c
 	}
 }
 
-psands_cisp430_a3::Tokenizer::Tokenizer()
+Tokenizer::Tokenizer()
 {
 	// Initialize the arithmetic operators that are supported by application
-	this->_equalsToken = new psands_cisp430_a3::Token("=", ASSIGNMENTOPERATOR);
-	this->_additionToken = new psands_cisp430_a3::Token("+", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::add));
-	this->_subtractionToken = new psands_cisp430_a3::Token("-", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::subtract));
-	this->_multiplicationToken = new psands_cisp430_a3::Token("*", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::multiply));
-	this->_divisionToken = new psands_cisp430_a3::Token("/", BINARYOPERATOR, new BinaryOperator(psands_cisp430_a3::divide));
-	this->_sinToken = new psands_cisp430_a3::Token("sin", UNARYOPERATOR, new UnaryOperator(psands_cisp430_a3::sin));
-	this->_cosToken = new psands_cisp430_a3::Token("cos", UNARYOPERATOR, new UnaryOperator(psands_cisp430_a3::cos));
-	this->_sqrtToken = new psands_cisp430_a3::Token("sqrt", UNARYOPERATOR, new UnaryOperator(psands_cisp430_a3::sqrt));
-	this->_absToken = new psands_cisp430_a3::Token("abs", UNARYOPERATOR, new UnaryOperator(psands_cisp430_a3::abs));
+	this->_equalsToken = new Token("=", ASSIGNMENTOPERATOR);
+	this->_additionToken = new Token("+", BINARYOPERATOR, new BinaryOperator(add));
+	this->_subtractionToken = new Token("-", BINARYOPERATOR, new BinaryOperator(subtract));
+	this->_multiplicationToken = new Token("*", BINARYOPERATOR, new BinaryOperator(multiply));
+	this->_divisionToken = new Token("/", BINARYOPERATOR, new BinaryOperator(divide));
+	this->_sinToken = new Token("sin", UNARYOPERATOR, new UnaryOperator(sin));
+	this->_cosToken = new Token("cos", UNARYOPERATOR, new UnaryOperator(cos));
+	this->_sqrtToken = new Token("sqrt", UNARYOPERATOR, new UnaryOperator(sqrt));
+	this->_absToken = new Token("abs", UNARYOPERATOR, new UnaryOperator(abs));
 
 	// special tokens
-	this->_openParenToken = new psands_cisp430_a3::Token("(", SPECIAL);
-	this->_closeParenToken = new psands_cisp430_a3::Token(")", SPECIAL);
+	this->_openParenToken = new Token("(", SPECIAL);
+	this->_closeParenToken = new Token(")", SPECIAL);
 }
 
-psands_cisp430_a3::Tokenizer::Tokenizer(Symboltable * symboltable) : Tokenizer()
+Tokenizer::Tokenizer(Symboltable * symboltable) : Tokenizer()
 {
 	this->_symboltable = symboltable;
 }
 
-psands_cisp430_a3::Tokenizer::~Tokenizer()
+Tokenizer::~Tokenizer()
 {
 	// do not delete symbotable as that is handled elsewhere
 }
 
-psands_cisp430_a2::Queue<psands_cisp430_a3::Token*>* psands_cisp430_a3::Tokenizer::getTokenQueue(std::string expression)
+Queue<Token*>* Tokenizer::getTokenQueue(std::string expression)
 {
-	psands_cisp430_a2::Queue<psands_cisp430_a3::Token *> * result = new psands_cisp430_a2::Queue<psands_cisp430_a3::Token *>();
+	Queue<Token *> * result = new Queue<Token *>();
 
 	std::regex operand("[a-zA-Z0-9\.]");
 	std::regex oprator("[\+\-/\\*=()]");

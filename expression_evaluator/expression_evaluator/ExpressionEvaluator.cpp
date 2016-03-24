@@ -9,26 +9,26 @@
 using namespace psands_cisp430_a2;
 using namespace psands_cisp430_a3;
 
-psands_cisp430_a3::ExpressionEvaluator::ExpressionEvaluator()
+ExpressionEvaluator::ExpressionEvaluator()
 {
 	this->_infixParser = new InfixParser();
 	this->_symbolTable = new Symboltable(30, 3, 10);
 	this->_tokenizer = new Tokenizer(this->_symbolTable);
 }
 
-psands_cisp430_a3::ExpressionEvaluator::ExpressionEvaluator(std::string expression) : ExpressionEvaluator()
+ExpressionEvaluator::ExpressionEvaluator(std::string expression) : ExpressionEvaluator()
 {
 	this->setExpression(expression);
 }
 
-psands_cisp430_a3::ExpressionEvaluator::~ExpressionEvaluator()
+ExpressionEvaluator::~ExpressionEvaluator()
 {
 	delete this->_infixParser;
 	delete this->_symbolTable;
 	delete this->_tokenizer;
 }
 
-void psands_cisp430_a3::ExpressionEvaluator::setExpression(std::string expression)
+void ExpressionEvaluator::setExpression(std::string expression)
 {
 	this->_expression = expression;
 }
@@ -43,10 +43,10 @@ void psands_cisp430_a3::ExpressionEvaluator::setExpression(std::string expressio
 		the result of the operation method is added to the evaluation stack
 		a well-formed postfix expression should result in a single value remaining in the evaluation stack, which is the result of the expression.
 */
-double psands_cisp430_a3::ExpressionEvaluator::getExpressionResult()
+double ExpressionEvaluator::getExpressionResult()
 {
-	psands_cisp430_a2::Queue<Token *> * infixTokenQueue = this->_tokenizer->getTokenQueue(this->_expression);
-	psands_cisp430_a2::Queue<Token *> * postfixTokenQueue = this->_infixParser->getPostfixTokenQueue(infixTokenQueue);
+	Queue<Token *> * infixTokenQueue = this->_tokenizer->getTokenQueue(this->_expression);
+	Queue<Token *> * postfixTokenQueue = this->_infixParser->getPostfixTokenQueue(infixTokenQueue);
 
 	// evaluate the postfixTokenQueue
 	Stack<Operand *> * evaluationStack = new Stack<Operand *>();
@@ -104,12 +104,12 @@ double psands_cisp430_a3::ExpressionEvaluator::getExpressionResult()
 	return result;
 }
 
-void psands_cisp430_a3::ExpressionEvaluator::evaluateExpression()
+void ExpressionEvaluator::evaluateExpression()
 {
 	this->getExpressionResult();
 }
 
-std::ostream & psands_cisp430_a3::ExpressionEvaluator::displayExpression(std::ostream & out)
+std::ostream & ExpressionEvaluator::displayExpression(std::ostream & out)
 {
 	out << this->_expression << std::endl;
 	return out;

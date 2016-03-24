@@ -2,55 +2,57 @@
 #include "AbstractOperator.h"
 #include "Operand.h"
 
-psands_cisp430_a3::Token::Token()
+using namespace psands_cisp430_a3;
+
+Token::Token()
 {
 }
 
-psands_cisp430_a3::Token::Token(std::string tokenSymbol)
+Token::Token(std::string tokenSymbol)
 {
 	this->_tokenSymbol = tokenSymbol;
 	this->_tokenType = BADTOKEN;
 }
 
-psands_cisp430_a3::Token::Token(std::string tokenSymbol, TokenType tokenType) : Token(tokenSymbol)
+Token::Token(std::string tokenSymbol, TokenType tokenType) : Token(tokenSymbol)
 {
 	this->_tokenType = tokenType;
 }
 
-psands_cisp430_a3::Token::Token(std::string tokenSymbol, TokenType tokenType, Operand * operand)
+Token::Token(std::string tokenSymbol, TokenType tokenType, Operand * operand)
 {
 	this->_tokenSymbol = tokenSymbol;
 	this->_tokenType = tokenType;
 	this->_operand = operand;
 }
 
-std::string psands_cisp430_a3::Token::getTokenSymbol()
+std::string Token::getTokenSymbol()
 {
 	return this->_tokenSymbol;
 }
 
-psands_cisp430_a3::Token::Token(std::string tokenSymbol, TokenType tokenType, AbstractOperator * abstractOperator)
+Token::Token(std::string tokenSymbol, TokenType tokenType, AbstractOperator * abstractOperator)
 {
 	this->_tokenSymbol = tokenSymbol;
 	this->_tokenType = tokenType;
 	this->_abstractOperator = abstractOperator;
 }
 
-psands_cisp430_a3::Token::~Token()
+Token::~Token()
 {
 }
 
-psands_cisp430_a3::TokenType psands_cisp430_a3::Token::getTokenType()
+TokenType Token::getTokenType()
 {
 	return this->_tokenType;
 }
 
-psands_cisp430_a3::Operand * psands_cisp430_a3::Token::getOperand()
+Operand * Token::getOperand()
 {
 	return this->_operand;
 }
 
-psands_cisp430_a3::AbstractOperator * psands_cisp430_a3::Token::getOperator()
+AbstractOperator * Token::getOperator()
 {
 	return this->_abstractOperator;
 }

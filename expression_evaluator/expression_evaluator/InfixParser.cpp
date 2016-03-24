@@ -6,27 +6,27 @@
 using namespace psands_cisp430_a2;
 using namespace psands_cisp430_a3;
 
-void psands_cisp430_a3::InfixParser::infixNextStateS1(psands_cisp430_a2::Queue<Token*>* input, psands_cisp430_a2::Queue<Token*>* output, psands_cisp430_a2::Stack<Token*>* operatorStack)
+void InfixParser::infixNextStateS1(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
 {
 	output->enqueue(input->dequeue());
 }
 
-void psands_cisp430_a3::InfixParser::infixNextStateS2(psands_cisp430_a2::Queue<Token*>* input, psands_cisp430_a2::Queue<Token*>* output, psands_cisp430_a2::Stack<Token*>* operatorStack)
+void InfixParser::infixNextStateS2(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
 {
 	operatorStack->push(input->dequeue());
 }
 
-void psands_cisp430_a3::InfixParser::infixNextStateErr(psands_cisp430_a2::Queue<Token*>* input, psands_cisp430_a2::Queue<Token*>* output, psands_cisp430_a2::Stack<Token*>* operatorStack)
+void InfixParser::infixNextStateErr(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
 {
 	// error occurred - how to handle?
 }
 
-void psands_cisp430_a3::InfixParser::infixNextStateU1(psands_cisp430_a2::Queue<Token*>* input, psands_cisp430_a2::Queue<Token*>* output, psands_cisp430_a2::Stack<Token*>* operatorStack)
+void InfixParser::infixNextStateU1(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
 {
 	output->enqueue(operatorStack->pop());
 }
 
-void psands_cisp430_a3::InfixParser::infixNextStateU2(psands_cisp430_a2::Queue<Token*>* input, psands_cisp430_a2::Queue<Token*>* output, psands_cisp430_a2::Stack<Token*>* operatorStack)
+void InfixParser::infixNextStateU2(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
 {
 	while (!operatorStack->isEmpty())
 	{
@@ -34,7 +34,7 @@ void psands_cisp430_a3::InfixParser::infixNextStateU2(psands_cisp430_a2::Queue<T
 	}
 }
 
-void psands_cisp430_a3::InfixParser::infixNextStateUC(psands_cisp430_a2::Queue<Token*>* input, psands_cisp430_a2::Queue<Token*>* output, psands_cisp430_a2::Stack<Token*>* operatorStack)
+void InfixParser::infixNextStateUC(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
 {
 	while ("(" != operatorStack->peek()->getTokenSymbol())
 	{
@@ -44,15 +44,15 @@ void psands_cisp430_a3::InfixParser::infixNextStateUC(psands_cisp430_a2::Queue<T
 	input->dequeue(); // discard the ")"
 }
 
-psands_cisp430_a3::InfixParser::InfixParser()
+InfixParser::InfixParser()
 {
 }
 
-psands_cisp430_a3::InfixParser::~InfixParser()
+InfixParser::~InfixParser()
 {
 }
 
-Queue<Token*>* psands_cisp430_a3::InfixParser::getPostfixTokenQueue(Queue<Token*>* infixTokenQueue)
+Queue<Token*>* InfixParser::getPostfixTokenQueue(Queue<Token*>* infixTokenQueue)
 {
 	Queue<Token *> * result = new Queue<Token*>(); // this is where the postfix expression will end up
 	Stack<Token *> * s2 = new Stack<Token*>(); // this is the intermediate stack that stores operators

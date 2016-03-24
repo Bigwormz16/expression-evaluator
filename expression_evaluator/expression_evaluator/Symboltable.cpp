@@ -26,7 +26,7 @@ Symboltable::Symboltable() : Hashtable<std::string, Operand *>()
 {
 }
 
-psands_cisp430_a3::Symboltable::Symboltable(int maxBucket, int maxSlots, int maxOverflowBuckets) : Hashtable<std::string, Operand *>(maxBucket, maxSlots, maxOverflowBuckets)
+Symboltable::Symboltable(int maxBucket, int maxSlots, int maxOverflowBuckets) : Hashtable<std::string, Operand *>(maxBucket, maxSlots, maxOverflowBuckets)
 {
 }
 

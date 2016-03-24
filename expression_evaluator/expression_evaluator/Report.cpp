@@ -1,7 +1,9 @@
 #include <fstream>
 #include "Report.h"
 
-psands_cisp430_a2::Report::Report()
+using namespace psands_cisp430_a2;
+
+Report::Report()
 {
 }
 
@@ -11,7 +13,7 @@ psands_cisp430_a2::Report::Report()
 	set this report title to the parameter reportTitle
 \endcode
 */
-psands_cisp430_a2::Report::Report(std::string reportHeader, std::string reportTitle)
+Report::Report(std::string reportHeader, std::string reportTitle)
 {
 	this->setReportHeader(reportHeader);
 	this->setReportTitle(reportTitle);
@@ -23,7 +25,7 @@ psands_cisp430_a2::Report::Report(std::string reportHeader, std::string reportTi
 	then set this report body to the copy report body
 \endcode
 */
-psands_cisp430_a2::Report::Report(const Report & report) : Report(report._reportHeader, report._reportTitle)
+Report::Report(const Report & report) : Report(report._reportHeader, report._reportTitle)
 {
 	this->_reportBody = report._reportBody;
 }
@@ -33,7 +35,7 @@ psands_cisp430_a2::Report::Report(const Report & report) : Report(report._report
 	set this report header to parameter reportHeader
 \endcode
 */
-void psands_cisp430_a2::Report::setReportHeader(std::string reportHeader)
+void Report::setReportHeader(std::string reportHeader)
 {
 	this->_reportHeader = reportHeader;
 }
@@ -43,7 +45,7 @@ void psands_cisp430_a2::Report::setReportHeader(std::string reportHeader)
 	set this reportTitle to parameter reportTitle
 \endcode
 */
-void psands_cisp430_a2::Report::setReportTitle(std::string reportTitle)
+void Report::setReportTitle(std::string reportTitle)
 {
 	this->_reportTitle = reportTitle;
 }
@@ -53,7 +55,7 @@ void psands_cisp430_a2::Report::setReportTitle(std::string reportTitle)
 	append parameter content to this report's body
 \endcode
 */
-void psands_cisp430_a2::Report::addContent(std::string content)
+void Report::addContent(std::string content)
 {
 	this->_reportBody += content;
 }
@@ -63,7 +65,7 @@ void psands_cisp430_a2::Report::addContent(std::string content)
 	return a concatenation of this report's header, title and body
 \endcode
 */
-std::string psands_cisp430_a2::Report::generateReport() const
+std::string Report::generateReport() const
 {
 	return this->_reportHeader + this->_reportTitle + this->_reportBody;
 }
@@ -76,7 +78,7 @@ std::string psands_cisp430_a2::Report::generateReport() const
 		close file
 \endcode
 */
-void psands_cisp430_a2::Report::saveReport(char * filename) const
+void Report::saveReport(char * filename) const
 {
 	std::ofstream output;
 	output.open(filename);
