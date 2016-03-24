@@ -167,7 +167,7 @@ namespace psands_cisp430
 
 		for (unsigned int i = 0; i < this->_maxBuckets; i++)
 		{
-			outstr << "Bucket " << i + 1 << endl;
+			outstr << "Bucket " << i + 1 << std::endl;
 			this->_buckets[i]->report(outstr);
 		}
 	}
@@ -186,13 +186,13 @@ namespace psands_cisp430
 
 			if (0 < bucketChainLength)
 			{
-				outstr << "Bucket " << i + 1 << ":\tLength: " << bucketChainLength << endl;
+				outstr << "Bucket " << i + 1 << ":\tLength: " << bucketChainLength << std::endl;
 				sum += bucketChainLength;
 				count++;
 			}
 		}
-		outstr << "Total Collision Chain Length: " << sum << endl;
-		outstr << "Average Collision Chain Length: " << sum / count << endl;
+		outstr << "Total Collision Chain Length: " << sum << std::endl;
+		outstr << "Average Collision Chain Length: " << sum / count << std::endl;
 	}
 
 	template<class TKey, class TData>
@@ -301,14 +301,14 @@ namespace psands_cisp430
 	template<class TKey, class TData>
 	inline void Hashtable<TKey, TData>::search(std::ostream& outstr, TKey key, int hashIdx)
 	{
-		outstr << setfill(' ');
+		outstr << std::setfill(' ');
 
 		if (this->_buckets[hashIdx]->hasMatch(key))
 		{
 			int slotIdx = this->_buckets[hashIdx]->getSlotNumberByKey(key);
 			outstr << key;
-			outstr << setw(7) << hashIdx + 1 << "/" << slotIdx + 1;
-			outstr << setw(25) << this->_buckets[hashIdx]->getData(slotIdx) << endl;
+			outstr << std::setw(7) << hashIdx + 1 << "/" << slotIdx + 1;
+			outstr << std::setw(25) << this->_buckets[hashIdx]->getData(slotIdx) << std::endl;
 		}
 		else
 		{
@@ -318,7 +318,7 @@ namespace psands_cisp430
 			}
 			else
 			{
-				outstr << key << setw(32) << "Record not found" << endl;
+				outstr << key << std::setw(32) << "Record not found" << std::endl;
 			}
 		}
 	}
@@ -326,22 +326,22 @@ namespace psands_cisp430
 	template<class TKey, class TData>
 	inline void Hashtable<TKey, TData>::generateReportHeader(std::ostream& outstr, bool isStatReport, bool isBeforeRestore)
 	{
-		outstr << setfill(' ');
-		outstr << setw(30) << "Hash Table" << endl;
+		outstr << std::setfill(' ');
+		outstr << std::setw(30) << "Hash Table" << std::endl;
 		if (true == isStatReport)
 		{
-			outstr << setw(30) << "Stat Report" << endl;
+			outstr << std::setw(30) << "Stat Report" << std::endl;
 		}
 		else
 		{
-			outstr << setw(35) << "Verification Report" << endl;
+			outstr << std::setw(35) << "Verification Report" << std::endl;
 			if (true == isBeforeRestore)
 			{
-				outstr << setw(35) << "Before Restoration" << endl;
+				outstr << std::setw(35) << "Before Restoration" << std::endl;
 			}
 			else
 			{
-				outstr << setw(34) << "After Restoration" << endl;
+				outstr << std::setw(34) << "After Restoration" << std::endl;
 			}
 		}
 	}

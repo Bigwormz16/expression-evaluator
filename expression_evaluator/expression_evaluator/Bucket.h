@@ -231,9 +231,9 @@ namespace psands_cisp430
 		{
 			outstr << "\tSlot " << i + 1 << ": ";
 			this->_slots[i]->report(outstr);
-			outstr << endl;
+			outstr << std::endl;
 		}
-		outstr << "\tOverflow Pointer: " << this->_overflowIdx << endl;
+		outstr << "\tOverflow Pointer: " << this->_overflowIdx << std::endl;
 	}
 
 	template<class TKey, class TData>
