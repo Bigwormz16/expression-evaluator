@@ -113,7 +113,12 @@ double ExpressionEvaluator::getExpressionResult(string expression)
 
 void ExpressionEvaluator::evaluateExpression()
 {
-	this->getExpressionResult();
+	this->evaluateExpression(this->_expression);
+}
+
+void psands_cisp430_a3::ExpressionEvaluator::evaluateExpression(std::string expression)
+{
+	this->getExpressionResult(expression);
 }
 
 ostream & ExpressionEvaluator::displayExpression(ostream & out)

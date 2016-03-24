@@ -25,6 +25,7 @@ namespace psands_cisp430_a3
 		double getExpressionResult();
 		double getExpressionResult(std::string expression);
 		void evaluateExpression();
+		void evaluateExpression(std::string expression);
 		std::ostream & displayExpression(std::ostream & ostream);
 	};
 }
