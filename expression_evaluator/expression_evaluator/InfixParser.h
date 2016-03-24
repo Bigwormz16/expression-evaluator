@@ -8,10 +8,20 @@
 
 namespace psands_cisp430_a3
 {
+	enum ParseAction
+	{
+		S1,
+		S2,
+		U1,
+		U2,
+		UC,
+		ERR
+	};
+
 	class InfixParser
 	{
 	private:
-		std::string _parsetable[7][6];
+		ParseAction _parsetable[7][6];
 		void infixNextStateS1(psands_cisp430_a2::Queue<Token *> * input, psands_cisp430_a2::Queue<Token *> * output, psands_cisp430_a2::Stack<Token *> * operatorStack);
 		void infixNextStateS2(psands_cisp430_a2::Queue<Token *> * input, psands_cisp430_a2::Queue<Token *> * output, psands_cisp430_a2::Stack<Token *> * operatorStack);
 		void infixNextStateErr(psands_cisp430_a2::Queue<Token *> * input, psands_cisp430_a2::Queue<Token *> * output, psands_cisp430_a2::Stack<Token *> * operatorStack);
