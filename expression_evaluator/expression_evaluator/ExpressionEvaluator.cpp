@@ -61,6 +61,8 @@ double ExpressionEvaluator::getExpressionResult()
 		if (OPERAND == currentTokenType)
 		{
 			evaluationStack->push(currentToken->getOperand());
+
+			delete currentToken;
 		}
 		else if (UNARYOPERATOR == currentTokenType)
 		{
@@ -91,8 +93,6 @@ double ExpressionEvaluator::getExpressionResult()
 			// after evaluating operands, remove them from the list for the next operation
 			operandsToEvaluate->removeAll();
 		}
-
-		delete currentToken;
 	}
 
 	double result = evaluationStack->pop()->getValue();
