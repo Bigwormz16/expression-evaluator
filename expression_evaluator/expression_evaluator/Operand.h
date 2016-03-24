@@ -3,6 +3,8 @@
 // Spring 2016
 // Assign 3
 
+// Represents a numeric value to be used in an expression
+
 #ifndef PSANDS_CISP430_OPERAND_H
 #define PSANDS_CISP430_OPERAND_H
 

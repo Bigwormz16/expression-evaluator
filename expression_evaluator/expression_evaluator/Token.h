@@ -3,6 +3,9 @@
 // Spring 2016
 // Assign 3
 
+// Represents an individual component of an expression, either operand or operator.
+//		Stores the type of token it is as well as the priority it runs at
+
 #ifndef PSANDS_CISP430_TOKEN_H
 #define PSANDS_CISP430_TOKEN_H
 

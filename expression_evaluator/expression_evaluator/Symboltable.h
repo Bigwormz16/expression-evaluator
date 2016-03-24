@@ -3,6 +3,9 @@
 // Spring 2016
 // Assign 3
 
+// Represents a map of a variable name to an address of an operand.
+//		Facilitates retrieval of addresses by variable name for getting and setting the operand value
+
 #ifndef PSANDS_CISP430_SYMBOLTABLE_H
 #define PSANDS_CISP430_SYMBOLTABLE_H
 

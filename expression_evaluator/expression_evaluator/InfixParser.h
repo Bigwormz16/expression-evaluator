@@ -3,6 +3,8 @@
 // Spring 2016
 // Assign 3
 
+// Converts an infix expression to postfix
+
 #ifndef PSANDS_CISP430_INFIXPARSER_H
 #define PSANDS_CISP430_INFIXPARSER_H
 

@@ -3,6 +3,9 @@
 // Spring 2016
 // Assign 3
 
+// inherits abstract operator, defines number of operands as 1, and takes a function to define 
+//		the operation to perform
+
 #ifndef PSANDS_CISP430_UNARYOPERATOR_H
 #define PSANDS_CISP430_UNARYOPERATOR_H
 

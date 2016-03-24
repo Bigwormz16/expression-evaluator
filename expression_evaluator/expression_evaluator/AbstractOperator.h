@@ -3,6 +3,8 @@
 // Spring 2016
 // Assign 3
 
+// abstract operator, establishes behavior to evaluate an undetermined number of operands
+
 #ifndef PSANDS_CISP430_ABSTRACTOPERATOR_H
 #define PSANDS_CISP430_ABSTRACTOPERATOR_H
 

@@ -3,6 +3,8 @@
 // Spring 2016
 // Assign 3
 
+// Converts a string expression into a tokenized expression in queue form.
+
 #ifndef PSANDS_CISP430_TOKENIZER_H
 #define PSANDS_CISP430_TOKENIZER_H
 

@@ -3,6 +3,9 @@
 // Spring 2016
 // Assign 3
 
+// Uses the other modules created for assignment 3 to convert an infix expression to postfix,
+//		evaluate the expression, and potentially assign the evaluation to a variable
+
 #ifndef PSANDS_CISP430_EXPRESSIONEVALUATOR_H
 #define PSANDS_CISP430_EXPRESSIONEVALUATOR_H
 
