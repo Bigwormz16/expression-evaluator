@@ -20,17 +20,19 @@ namespace psands_cisp430_a3
 	class Token
 	{
 	private:
+		unsigned int _tokenPriority;
 		std::string _tokenSymbol;
 		TokenType _tokenType;
 		Operand * _operand;
 		AbstractOperator * _abstractOperator;
 	public:
 		Token();
-		Token(std::string tokenSymbol);
-		Token(std::string tokenSymbol, TokenType tokenType);
-		Token(std::string tokenSymbol, TokenType tokenType, Operand * operand);
-		Token(std::string tokenSymbol, TokenType tokenType, AbstractOperator * abstractOperator);
+		Token(std::string tokenSymbol, unsigned int tokenPriority);
+		Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority);
+		Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority, Operand * operand);
+		Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority, AbstractOperator * abstractOperator);
 		~Token();
+		unsigned int getTokenPriority();
 		std::string getTokenSymbol();
 		TokenType getTokenType();
 		Operand * getOperand();

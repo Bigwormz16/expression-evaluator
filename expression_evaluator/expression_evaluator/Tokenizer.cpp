@@ -41,7 +41,7 @@ void Tokenizer::processOperand(std::string operand, Queue<Token *> * tokenizedQu
 		try
 		{
 			double doubleOperand = std::stod(operand);
-			tokenizedQueue->enqueue(new Token(operand, OPERAND, new Operand(doubleOperand)));
+			tokenizedQueue->enqueue(new Token(operand, OPERAND, 0, new Operand(doubleOperand)));
 		}
 		catch(std::exception e)
 		{
@@ -51,7 +51,7 @@ void Tokenizer::processOperand(std::string operand, Queue<Token *> * tokenizedQu
 				oprnd = new Operand(0.0);
 				this->_symboltable->insert(operand, oprnd);
 			}
-			tokenizedQueue->enqueue(new Token(operand, OPERAND, oprnd));
+			tokenizedQueue->enqueue(new Token(operand, OPERAND, 0, oprnd));
 		}
 	}
 }
@@ -104,28 +104,24 @@ void Tokenizer::processOperator(std::string oprator, Queue<Token *> * tokenizedQ
 	{
 		tokenizedQueue->enqueue(this->_closeParenToken);
 	}
-	else
-	{
-		tokenizedQueue->enqueue(new Token(oprator));
-	}
 }
 
 Tokenizer::Tokenizer()
 {
 	// Initialize the arithmetic operators that are supported by application
-	this->_equalsToken = new Token("=", ASSIGNMENTOPERATOR);
-	this->_additionToken = new Token("+", BINARYOPERATOR, new BinaryOperator(add));
-	this->_subtractionToken = new Token("-", BINARYOPERATOR, new BinaryOperator(subtract));
-	this->_multiplicationToken = new Token("*", BINARYOPERATOR, new BinaryOperator(multiply));
-	this->_divisionToken = new Token("/", BINARYOPERATOR, new BinaryOperator(divide));
-	this->_sinToken = new Token("sin", UNARYOPERATOR, new UnaryOperator(sin));
-	this->_cosToken = new Token("cos", UNARYOPERATOR, new UnaryOperator(cos));
-	this->_sqrtToken = new Token("sqrt", UNARYOPERATOR, new UnaryOperator(sqrt));
-	this->_absToken = new Token("abs", UNARYOPERATOR, new UnaryOperator(abs));
+	this->_equalsToken = new Token("=", ASSIGNMENTOPERATOR, 1);
+	this->_additionToken = new Token("+", BINARYOPERATOR, 2, new BinaryOperator(add));
+	this->_subtractionToken = new Token("-", BINARYOPERATOR, 2, new BinaryOperator(subtract));
+	this->_multiplicationToken = new Token("*", BINARYOPERATOR, 3, new BinaryOperator(multiply));
+	this->_divisionToken = new Token("/", BINARYOPERATOR, 3, new BinaryOperator(divide));
+	this->_sinToken = new Token("sin", UNARYOPERATOR, 4, new UnaryOperator(sin));
+	this->_cosToken = new Token("cos", UNARYOPERATOR, 4, new UnaryOperator(cos));
+	this->_sqrtToken = new Token("sqrt", UNARYOPERATOR, 4, new UnaryOperator(sqrt));
+	this->_absToken = new Token("abs", UNARYOPERATOR, 4, new UnaryOperator(abs));
 
 	// special tokens
-	this->_openParenToken = new Token("(", SPECIAL);
-	this->_closeParenToken = new Token(")", SPECIAL);
+	this->_openParenToken = new Token("(", SPECIAL, 5);
+	this->_closeParenToken = new Token(")", SPECIAL, 6);
 }
 
 Tokenizer::Tokenizer(Symboltable * symboltable) : Tokenizer()

@@ -1,6 +1,7 @@
 #ifndef PSANDS_CISP430_INFIXPARSER_H
 #define PSANDS_CISP430_INFIXPARSER_H
 
+#include <string>
 #include "Queue.h"
 #include "Stack.h"
 #include "Token.h"
@@ -10,6 +11,7 @@ namespace psands_cisp430_a3
 	class InfixParser
 	{
 	private:
+		std::string _parsetable[7][6];
 		void infixNextStateS1(psands_cisp430_a2::Queue<Token *> * input, psands_cisp430_a2::Queue<Token *> * output, psands_cisp430_a2::Stack<Token *> * operatorStack);
 		void infixNextStateS2(psands_cisp430_a2::Queue<Token *> * input, psands_cisp430_a2::Queue<Token *> * output, psands_cisp430_a2::Stack<Token *> * operatorStack);
 		void infixNextStateErr(psands_cisp430_a2::Queue<Token *> * input, psands_cisp430_a2::Queue<Token *> * output, psands_cisp430_a2::Stack<Token *> * operatorStack);

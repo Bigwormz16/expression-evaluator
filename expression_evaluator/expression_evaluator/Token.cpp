@@ -6,40 +6,45 @@ using namespace psands_cisp430_a3;
 
 Token::Token()
 {
-}
-
-Token::Token(std::string tokenSymbol)
-{
-	this->_tokenSymbol = tokenSymbol;
 	this->_tokenType = BADTOKEN;
+	this->_tokenPriority = 0;
 }
 
-Token::Token(std::string tokenSymbol, TokenType tokenType) : Token(tokenSymbol)
-{
-	this->_tokenType = tokenType;
-}
-
-Token::Token(std::string tokenSymbol, TokenType tokenType, Operand * operand)
+Token::Token(std::string tokenSymbol, unsigned int tokenPriority) : Token()
 {
 	this->_tokenSymbol = tokenSymbol;
+	this->_tokenPriority = tokenPriority;
+}
+
+Token::Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority) : Token(tokenSymbol, tokenPriority)
+{
 	this->_tokenType = tokenType;
+}
+
+Token::Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority, Operand * operand)
+	: Token(tokenSymbol, tokenType, tokenPriority)
+{
 	this->_operand = operand;
 }
 
-std::string Token::getTokenSymbol()
+Token::Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority, AbstractOperator * abstractOperator)
+	: Token(tokenSymbol, tokenType, tokenPriority)
 {
-	return this->_tokenSymbol;
-}
-
-Token::Token(std::string tokenSymbol, TokenType tokenType, AbstractOperator * abstractOperator)
-{
-	this->_tokenSymbol = tokenSymbol;
-	this->_tokenType = tokenType;
 	this->_abstractOperator = abstractOperator;
 }
 
 Token::~Token()
 {
+}
+
+unsigned int Token::getTokenPriority()
+{
+	return this->_tokenPriority;
+}
+
+std::string Token::getTokenSymbol()
+{
+	return this->_tokenSymbol;
 }
 
 TokenType Token::getTokenType()

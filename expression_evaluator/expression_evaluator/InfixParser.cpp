@@ -3,6 +3,7 @@
 #include "Stack.h"
 #include "Token.h"
 
+using namespace std;
 using namespace psands_cisp430_a2;
 using namespace psands_cisp430_a3;
 
@@ -46,6 +47,21 @@ void InfixParser::infixNextStateUC(Queue<Token*>* input, Queue<Token*>* output, 
 
 InfixParser::InfixParser()
 {
+	this->_parsetable[0][0] = "s1"; this->_parsetable[0][1] = "s1"; this->_parsetable[0][2] = "s1";
+		this->_parsetable[0][3] = "s1"; this->_parsetable[0][4] = "s1"; this->_parsetable[0][5] = "s1";
+		this->_parsetable[1][0] = "s2"; this->_parsetable[1][1] = "err"; this->_parsetable[1][2] = "err";
+		this->_parsetable[1][3] = "err"; this->_parsetable[1][4] = "err"; this->_parsetable[1][5] = "err";
+		this->_parsetable[2][0] = "err"; this->_parsetable[2][1] = "s2"; this->_parsetable[2][2] = "u1";
+		this->_parsetable[2][3] = "u1"; this->_parsetable[2][4] = "u1"; this->_parsetable[2][5] = "s2";
+		this->_parsetable[3][0] = "err"; this->_parsetable[3][1] = "s2"; this->_parsetable[3][2] = "s2";
+		this->_parsetable[3][3] = "u1"; this->_parsetable[3][4] = "u1"; this->_parsetable[3][5] = "s2";
+		this->_parsetable[4][0] = "err"; this->_parsetable[4][1] = "s2"; this->_parsetable[4][2] = "s2";
+		this->_parsetable[4][3] = "s2"; this->_parsetable[4][4] = "u1"; this->_parsetable[4][5] = "s2";
+		this->_parsetable[5][0] = "err"; this->_parsetable[5][1] = "s2"; this->_parsetable[5][2] = "s2";
+		this->_parsetable[5][3] = "s2"; this->_parsetable[5][4] = "s2"; this->_parsetable[5][5] = "s2";
+		this->_parsetable[6][0] = "err"; this->_parsetable[6][1] = "uc"; this->_parsetable[6][2] = "uc";
+		this->_parsetable[6][3] = "uc"; this->_parsetable[6][4] = "uc"; this->_parsetable[6][5] = "uc";
+
 }
 
 InfixParser::~InfixParser()
@@ -62,114 +78,38 @@ Queue<Token*>* InfixParser::getPostfixTokenQueue(Queue<Token*>* infixTokenQueue)
 
 	while (!infixTokenQueue->isEmpty())
 	{
-		if (infixTokenQueue->peek()->getTokenType() == OPERAND)
+		unsigned int nextTokenPriority = infixTokenQueue->peek()->getTokenPriority();
+		unsigned int s2TopTokenPriority = 0;
+		if (!s2->isEmpty())
+		{
+			s2TopTokenPriority = s2->peek()->getTokenPriority();
+		}
+
+		string infixAction = this->_parsetable[nextTokenPriority][s2TopTokenPriority];
+
+		if ("s1" == infixAction)
 		{
 			this->infixNextStateS1(infixTokenQueue, result, s2);
 		}
-		else if ("=" == infixTokenQueue->peek()->getTokenSymbol())
+		else if ("s2" == infixAction)
 		{
-			if (true == s2->isEmpty())
-			{
-				this->infixNextStateS2(infixTokenQueue, result, s2);
-			}
-			else
-			{
-				this->infixNextStateErr(infixTokenQueue, result, s2);
-			}
+			this->infixNextStateS2(infixTokenQueue, result, s2);
 		}
-		else if ("+" == infixTokenQueue->peek()->getTokenSymbol() ||
-			"-" == infixTokenQueue->peek()->getTokenSymbol())
+		else if ("err" == infixAction)
 		{
-			if (true == s2->isEmpty())
-			{
-				this->infixNextStateErr(infixTokenQueue, result, s2);
-			}
-			else if ("sin" == s2->peek()->getTokenSymbol() ||
-				"cos" == s2->peek()->getTokenSymbol() ||
-				"sqrt" == s2->peek()->getTokenSymbol() ||
-				"abs" == s2->peek()->getTokenSymbol())
-			{
-				this->infixNextStateU1(infixTokenQueue, result, s2);
-			}
-			else if ("=" == s2->peek()->getTokenSymbol() ||
-				"(" == s2->peek()->getTokenSymbol())
-			{
-				this->infixNextStateS2(infixTokenQueue, result, s2);
-			}
-			else if ("+" == s2->peek()->getTokenSymbol() ||
-				"-" == s2->peek()->getTokenSymbol() ||
-				"*" == s2->peek()->getTokenSymbol() ||
-				"/" == s2->peek()->getTokenSymbol())
-			{
-				this->infixNextStateU1(infixTokenQueue, result, s2);
-			}
+			this->infixNextStateErr(infixTokenQueue, result, s2);
 		}
-		else if ("*" == infixTokenQueue->peek()->getTokenSymbol() ||
-			"/" == infixTokenQueue->peek()->getTokenSymbol())
+		else if ("u1" == infixAction)
 		{
-			if (true == s2->isEmpty())
-			{
-				this->infixNextStateErr(infixTokenQueue, result, s2);
-			}
-			else if ("sin" == s2->peek()->getTokenSymbol() ||
-				"cos" == s2->peek()->getTokenSymbol() ||
-				"sqrt" == s2->peek()->getTokenSymbol() ||
-				"abs" == s2->peek()->getTokenSymbol())
-			{
-				this->infixNextStateU1(infixTokenQueue, result, s2);
-			}
-			else if ("=" == s2->peek()->getTokenSymbol() ||
-				"(" == s2->peek()->getTokenSymbol() ||
-				"+" == s2->peek()->getTokenSymbol() ||
-				"-" == s2->peek()->getTokenSymbol())
-			{
-				this->infixNextStateS2(infixTokenQueue, result, s2);
-			}
-			else if ("*" == s2->peek()->getTokenSymbol() ||
-				"/" == s2->peek()->getTokenSymbol())
-			{
-				this->infixNextStateU1(infixTokenQueue, result, s2);
-			}
+			this->infixNextStateU1(infixTokenQueue, result, s2);
 		}
-		else if ("(" == infixTokenQueue->peek()->getTokenSymbol())
+		else if ("u2" == infixAction)
 		{
-			if (true == s2->isEmpty())
-			{
-				this->infixNextStateErr(infixTokenQueue, result, s2);
-			}
-			else
-			{
-				this->infixNextStateS2(infixTokenQueue, result, s2);
-			}
+			this->infixNextStateU2(infixTokenQueue, result, s2);
 		}
-		else if (")" == infixTokenQueue->peek()->getTokenSymbol())
+		else if ("uc" == infixAction)
 		{
-			if (true == s2->isEmpty() ||
-				"=" == s2->peek()->getTokenSymbol())
-			{
-				this->infixNextStateErr(infixTokenQueue, result, s2);
-			}
-			else
-			{
-				this->infixNextStateUC(infixTokenQueue, result, s2);
-			}
-		}
-		else if ("sin" == infixTokenQueue->peek()->getTokenSymbol() ||
-			"cos" == infixTokenQueue->peek()->getTokenSymbol() || 
-			"sqrt" == infixTokenQueue->peek()->getTokenSymbol() || 
-			"abs" == infixTokenQueue->peek()->getTokenSymbol())
-		{
-			if ("sin" == s2->peek()->getTokenSymbol() ||
-				"cos" == s2->peek()->getTokenSymbol() ||
-				"sqrt" == s2->peek()->getTokenSymbol() ||
-				"abs" == s2->peek()->getTokenSymbol())
-			{
-				this->infixNextStateU1(infixTokenQueue, result, s2);
-			}
-			else
-			{
-				this->infixNextStateS2(infixTokenQueue, result, s2);
-			}
+			this->infixNextStateUC(infixTokenQueue, result, s2);
 		}
 	}
 
