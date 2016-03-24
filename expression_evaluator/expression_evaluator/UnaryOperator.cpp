@@ -18,7 +18,7 @@ UnaryOperator::~UnaryOperator()
 {
 }
 
-Operand * UnaryOperator::Evaluate(psands_cisp430_a2::List<Operand * >* operands)
+Operand * UnaryOperator::Evaluate(List<Operand * >* operands)
 {
 	AbstractOperator::Evaluate(operands);
 

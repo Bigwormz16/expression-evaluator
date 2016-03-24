@@ -2,6 +2,7 @@
 #include "AbstractOperator.h"
 #include "Operand.h"
 
+using namespace psands_cisp430_a2;
 using namespace psands_cisp430_a3;
 
 AbstractOperator::AbstractOperator()
@@ -12,7 +13,7 @@ AbstractOperator::~AbstractOperator()
 {
 }
 
-Operand * AbstractOperator::Evaluate(psands_cisp430_a2::List<Operand *> * operands)
+Operand * AbstractOperator::Evaluate(List<Operand *> * operands)
 {
 	if (this->_numberOfOperands != operands->getCount())
 	{
