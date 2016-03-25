@@ -116,8 +116,8 @@ namespace psands_cisp430
 	template<class TKey, class TData>
 	inline void Hashtable<TKey, TData>::writeToDisk(char* filename)
 	{
-		ofstream outfile;
-		outfile.open(filename, ios::out | ios::binary);
+		std::ofstream outfile;
+		outfile.open(filename, std::ios::out | std::ios::binary);
 
 		outfile.write((char*)&this->_nextAvailableOverflowBucketIdx, sizeof(this->_nextAvailableOverflowBucketIdx));
 		outfile.write((char*)&this->_maxBuckets, sizeof(this->_maxBuckets));
@@ -134,8 +134,8 @@ namespace psands_cisp430
 	template<class TKey, class TData>
 	inline void Hashtable<TKey, TData>::restoreToMem(char* filename)
 	{
-		ifstream infile;
-		infile.open(filename, ios::in | ios::binary);
+		std::ifstream infile;
+		infile.open(filename, std::ios::in | std::ios::binary);
 
 		infile.read((char*)&this->_nextAvailableOverflowBucketIdx, sizeof(this->_nextAvailableOverflowBucketIdx));
 		infile.read((char*)&this->_maxBuckets, sizeof(this->_maxBuckets));

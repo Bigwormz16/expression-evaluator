@@ -278,6 +278,12 @@ namespace psands_cisp430_a2
 	template<class TDataType>
 	inline List<TDataType>::List()
 	{
+		this->_head = nullptr;
+		this->_tail = nullptr;
+		this->_count = 0;
+		this->_isFull = false;
+		this->_isSorted = false;
+
 		this->init();
 	}
 
@@ -492,7 +498,7 @@ namespace psands_cisp430_a2
 		\endcode
 	*/
 	template<class TDataType>
-	inline bool List<TDataType>::insert(TDataType data, int position = -1)
+	inline bool List<TDataType>::insert(TDataType data, int position)
 	{		
 		if(true == this->_isFull)
 		{

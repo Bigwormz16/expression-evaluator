@@ -37,7 +37,7 @@ namespace psands_cisp430_a2
 			@param node the node we will set our current node to
 			@param isHeadToTail determines the direction the iterator will go
 		*/
-		ListIterator<TDataType>(LinkedListNode<TDataType> * node, bool isHeadoTail = true);
+		ListIterator<TDataType>(LinkedListNode<TDataType> * node, bool isHeadToTail = true);
 		/**
 			copy constructor will be where we copy our values from
 			@param listIterator will copy our values from this list iterator
@@ -84,7 +84,7 @@ namespace psands_cisp430_a2
 	\endcode
 	*/
 	template<class TDataType>
-	inline ListIterator<TDataType>::ListIterator(LinkedListNode<TDataType>* node, bool isHeadToTail = true)
+	inline ListIterator<TDataType>::ListIterator(LinkedListNode<TDataType>* node, bool isHeadToTail)
 	{
 		this->_current = node;
 		this->_isHeadToTail = isHeadToTail;
@@ -99,9 +99,9 @@ namespace psands_cisp430_a2
 	template<class TDataType>
 	inline ListIterator<TDataType>::ListIterator(const ListIterator<TDataType> & listIterator)
 	{
-		this->_current = ListIterator._current;
-		this->_isHeadToTail = ListIterator._isHeadToTail;
-		this->_hasStarted = ListIterator._hasStarted;
+		this->_current = listIterator._current;
+		this->_isHeadToTail = listIterator._isHeadToTail;
+		this->_hasStarted = listIterator._hasStarted;
 	}
 
 

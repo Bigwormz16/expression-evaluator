@@ -86,9 +86,8 @@ namespace psands_cisp430_a2
 	}
 
 	template<class TDataType>
-	inline LinkedListNode<TDataType>::LinkedListNode(const LinkedListNode<TDataType> & linkedListNode)
+	inline LinkedListNode<TDataType>::LinkedListNode(const LinkedListNode<TDataType> & linkedListNode) : LinkedListNode(linkedListNode.getData())
 	{
-		this->setData(data);
 		this->setNodes(linkedListNode.getNext(), linkedListNode.getPrevious());
 	}
 

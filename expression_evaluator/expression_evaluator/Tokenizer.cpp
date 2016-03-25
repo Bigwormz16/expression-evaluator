@@ -48,7 +48,7 @@ void Tokenizer::processOperand(std::string operand, Queue<Token *> * tokenizedQu
 			double doubleOperand = std::stod(operand);
 			tokenizedQueue->enqueue(new Token(operand, OPERAND, 0, new Operand(doubleOperand)));
 		}
-		catch(std::exception e)
+		catch(...)
 		{
 			Operand * oprnd = this->_symboltable->get(operand);
 			if (nullptr == oprnd)
