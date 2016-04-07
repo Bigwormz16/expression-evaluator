@@ -114,8 +114,8 @@ void generateExpressionReport(string fileName)
 
 	// expression valuator cannot handle sign operator
 	// using expression that will evaluate to -1 for assignment
-	expressionReport.addContent("Assigning result of 0-1 (-1) to variable gamma with expression: \n\t\"gamma = 0 - 1\"\n");
-	evaluator->evaluateExpression("gamma = 0 - 1");
+	expressionReport.addContent("Assigning result of -1 to variable gamma with expression: \n\t\"gamma = -1\"\n");
+	evaluator->evaluateExpression("gamma = -1");
 	expressionReport.addContent("Assigning value 2 to variable delta with expression: \n\t\"delta = 2\"\n");
 	evaluator->evaluateExpression("delta = 2");
 

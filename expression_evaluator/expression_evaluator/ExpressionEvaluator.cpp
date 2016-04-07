@@ -3,6 +3,7 @@
 // Spring 2016
 // Assign 3
 
+#include <stdexcept> // invalid_argument exception
 #include "ExpressionEvaluator.h"
 #include "InfixParser.h"
 #include "List.h"
