@@ -24,7 +24,7 @@ void InfixParser::infixNextStateS2(Queue<Token*>* input, Queue<Token*>* output, 
 
 void InfixParser::infixNextStateErr(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
 {
-	// error occurred - how to handle?
+	this->_isError = true;
 }
 
 void InfixParser::infixNextStateU1(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
@@ -52,6 +52,8 @@ void InfixParser::infixNextStateUC(Queue<Token*>* input, Queue<Token*>* output, 
 
 InfixParser::InfixParser()
 {
+	this->_isError = false;
+
 	// operands
 	this->_parsetable[0][0] = S1; this->_parsetable[0][1] = S1; this->_parsetable[0][2] = S1;
 		this->_parsetable[0][3] = S1; this->_parsetable[0][4] = S1; this->_parsetable[0][5] = S1;
@@ -86,10 +88,12 @@ InfixParser::~InfixParser()
 	// logic exists in an array, which mirrors nextstate pushdown transducer, which determines next action to take
 Queue<Token*>* InfixParser::getPostfixTokenQueue(Queue<Token*>* infixTokenQueue)
 {
+	this->_isError = false;
+
 	Queue<Token *> * result = new Queue<Token*>(); // this is where the postfix expression will end up
 	Stack<Token *> * s2 = new Stack<Token*>(); // this is the intermediate stack that stores operators
 
-	while (!infixTokenQueue->isEmpty())
+	while (!infixTokenQueue->isEmpty() && false == this->_isError)
 	{
 		unsigned int nextTokenPriority = infixTokenQueue->peek()->getTokenPriority();
 		unsigned int s2TopTokenPriority = 0;
@@ -129,4 +133,9 @@ Queue<Token*>* InfixParser::getPostfixTokenQueue(Queue<Token*>* infixTokenQueue)
 	}
 	
 	return result;
+}
+
+bool psands_cisp430_a3::InfixParser::isError()
+{
+	return this->_isError;
 }

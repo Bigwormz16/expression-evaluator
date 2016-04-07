@@ -59,6 +59,11 @@ double ExpressionEvaluator::getExpressionResult(string expression)
 	Queue<Token *> * infixTokenQueue = this->_tokenizer->getTokenQueue(expression);
 	Queue<Token *> * postfixTokenQueue = this->_infixParser->getPostfixTokenQueue(infixTokenQueue);
 
+	if (true == this->_infixParser->isError())
+	{
+		throw invalid_argument("Invalid expression format.");
+	}
+
 	// evaluate the postfixTokenQueue
 	Stack<Operand *> * evaluationStack = new Stack<Operand *>();
 

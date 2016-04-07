@@ -3,6 +3,7 @@
 // Spring 2016
 // Assign 3
 
+#include <iostream>
 #include <string>
 #include "ExpressionEvaluator.h"
 #include "Report.h"
@@ -13,6 +14,10 @@ using namespace psands_cisp430_a3;
 
 string getReportHeader();
 void generateExpressionReport(char * fileName);
+
+int displayMainMenu();
+void displayInteractiveExpressionEvaluator();
+void displayReportGenerator();
 
 /*
 	Goal: Demonstrate expression evaluation and variable assignment by generating report
@@ -38,7 +43,23 @@ void generateExpressionReport(char * fileName);
 */
 int main(void)
 {
-	generateExpressionReport("C:\\Users\\peter\\Documents\\rep\\expression-report.txt");
+	int userChoice = 0;
+	while (-1 != userChoice)
+	{
+		userChoice = displayMainMenu();
+
+		if (1 == userChoice)
+		{
+			displayInteractiveExpressionEvaluator();
+		}
+		else if (2 == userChoice)
+		{
+			displayReportGenerator();
+		}
+
+	}
+
+	//generateExpressionReport("C:\\Users\\peter\\Documents\\rep\\expression-report.txt");
 
 	return 0;
 }
@@ -95,4 +116,68 @@ void generateExpressionReport(char * fileName)
 	expressionReport.addContent("Retrieving value of delta: " + to_string(evaluator->getExpressionResult("delta")) + "\n\n");
 
 	expressionReport.saveReport(fileName);
+}
+
+int displayMainMenu()
+{
+	cout << "\n\n\n\n\t\t" << "Assignment 3 Expression Evaluator" << endl;
+	cout << "\n\n\t" << "1 - Interactive Expression Evaluator" << endl;
+	cout << "\t2 - Generate Expression Report" << endl;
+	cout << "\tQ - Quit" << endl;
+	cout << "\n\n\tChoice: ";
+
+	char choice;
+	cin >> choice;
+
+	if ('Q' == choice || 'q' == choice)
+	{
+		return -1;
+	}
+
+	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+
+	return (int)choice - 48;
+}
+
+void displayInteractiveExpressionEvaluator()
+{
+	// ignoring "cin >> " call that took us to this menu
+	cin.ignore();
+
+	ExpressionEvaluator * evaluator = new ExpressionEvaluator();
+	string userInput = "";
+	bool continueExpressionEvaluation = true;
+
+	while (true == continueExpressionEvaluation)
+	{
+		cout << "\tEnter an expression to evaluate, or\n\tVariable name to see current value, or\n\tQ to quit\n\n\t";
+
+		cin.clear();
+		getline(cin, userInput);
+
+		if ("Q" == userInput || "q" == userInput)
+		{
+			continueExpressionEvaluation = false;
+		}
+		else
+		{
+			try
+			{
+				double expressionResult = evaluator->getExpressionResult(userInput);
+				cout << "\n\tEvaluated Result: " << expressionResult << "\n";
+			}
+			catch (const invalid_argument & ex)
+			{
+				cout << "\n\t" << ex.what() << "\n\n";
+			}
+		}
+		cout << "\n\n\n\n";
+	}
+
+	delete evaluator;
+}
+
+void displayReportGenerator()
+{
+
 }
