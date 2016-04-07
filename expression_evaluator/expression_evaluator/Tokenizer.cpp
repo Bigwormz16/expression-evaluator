@@ -24,6 +24,7 @@ namespace psands_cisp430_a3 {
 	double cos(double p1) { return std::cos(p1); }
 	double sqrt(double p1) { return std::sqrt(p1); }
 	double abs(double p1) { return std::abs(p1); }
+	double negative(double p1) { return p1 * -1; }
 }
 // to this point the operand has been the combination of sequential characters fitting in a-z, A-Z, 0-9, and the . character
 // first step is to determine if the combination of characters actually represents an operator: "sin", "cos", "sqrt", or "abs" for our purposes
@@ -33,13 +34,13 @@ namespace psands_cisp430_a3 {
 // if it is actually a collection of characters and numbers, then it is a variable
 	// retrieve value from symboltable or create new entry if it does not exist
 	// store this symboltable operand as a token
-void Tokenizer::processOperand(std::string operand, Queue<Token *> * tokenizedQueue)
+void Tokenizer::processOperand(std::string operand, bool isPrevTokenOperator, Queue<Token *> * tokenizedQueue)
 {
 	if (0 == operand.length()) return;
 
 	if ("sin" == operand || "cos" == operand || "sqrt" == operand || "abs" == operand)
 	{
-		this->processOperator(operand, tokenizedQueue);
+		this->processOperator(operand, isPrevTokenOperator, tokenizedQueue);
 	}
 	else
 	{
@@ -61,7 +62,7 @@ void Tokenizer::processOperand(std::string operand, Queue<Token *> * tokenizedQu
 	}
 }
 
-void Tokenizer::processOperator(std::string oprator, Queue<Token *> * tokenizedQueue)
+void Tokenizer::processOperator(std::string oprator, bool isPrevTokenOperator, Queue<Token *> * tokenizedQueue)
 {
 	if (0 == oprator.length()) return;
 
@@ -75,7 +76,16 @@ void Tokenizer::processOperator(std::string oprator, Queue<Token *> * tokenizedQ
 	}
 	else if ("-" == oprator)
 	{
-		tokenizedQueue->enqueue(this->_subtractionToken);
+		// determining negative sign as "-" which is preceeded by another operator
+		if (true == isPrevTokenOperator)
+		{
+			tokenizedQueue->enqueue(this->_negativeToken);
+		}
+		// determining subtraction sign as "-" which is preceeded by a non-operator (operand)
+		else
+		{
+			tokenizedQueue->enqueue(this->_subtractionToken);
+		}
 	}
 	else if ("*" == oprator)
 	{
@@ -124,6 +134,10 @@ Tokenizer::Tokenizer()
 	this->_sqrtToken = new Token("sqrt", UNARYOPERATOR, 4, new UnaryOperator(sqrt));
 	this->_absToken = new Token("abs", UNARYOPERATOR, 4, new UnaryOperator(abs));
 
+	// adding support for negative sign, which is a unary operation converting the sign of a single operand
+	// higher priority than other operations
+	this->_negativeToken = new Token("neg", UNARYOPERATOR, 5, new UnaryOperator(negative));
+
 	// special tokens
 	this->_openParenToken = new Token("(", SPECIAL, 5);
 	this->_closeParenToken = new Token(")", SPECIAL, 6);
@@ -167,6 +181,8 @@ Queue<Token*>* Tokenizer::getTokenQueue(std::string expression)
 	std::string nextOperand = "";
 	std::string nextOperator = "";
 
+	bool isPreviousTokenOperator = false;
+
 	for (int i = 0; i < expression.length(); i++)
 	{
 		std::string currentCharacter = expression.substr(i, 1);
@@ -174,22 +190,26 @@ Queue<Token*>* Tokenizer::getTokenQueue(std::string expression)
 		if (std::regex_match(currentCharacter, operand))
 		{
 			nextOperand += currentCharacter;
-			this->processOperator(nextOperator, result);
+			this->processOperator(nextOperator, isPreviousTokenOperator, result);
 			nextOperator = "";
+
+			isPreviousTokenOperator = false;
 		}
 		else if (std::regex_match(currentCharacter, oprator))
 		{
 			nextOperator = currentCharacter;
-			this->processOperand(nextOperand, result);
-			this->processOperator(nextOperator, result);
+			this->processOperand(nextOperand, isPreviousTokenOperator, result);
+			this->processOperator(nextOperator, isPreviousTokenOperator, result);
 			nextOperand = "";
 			nextOperator = "";
+
+			isPreviousTokenOperator = true;
 		}
 	}
 
 	// process final operand/operator
-	this->processOperand(nextOperand, result);
-	this->processOperator(nextOperator, result);
+	this->processOperand(nextOperand, isPreviousTokenOperator, result);
+	this->processOperator(nextOperator, isPreviousTokenOperator, result);
 
 	return result;
 }

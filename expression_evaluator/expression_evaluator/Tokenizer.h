@@ -24,8 +24,9 @@ namespace psands_cisp430_a3
 		Token * _additionToken, *_subtractionToken, *_multiplicationToken, *_divisionToken;
 		Token * _openParenToken, *_closeParenToken;
 		Token * _sinToken, *_cosToken, *_sqrtToken, *_absToken;
-		void processOperand(std::string operand, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
-		void processOperator(std::string oprator, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
+		Token * _negativeToken;
+		void processOperand(std::string operand, bool isPrevTokenOperator, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
+		void processOperator(std::string oprator, bool isPrevTokenOperator, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
 	public:
 		Tokenizer();
 		Tokenizer(Symboltable * symboltable);
