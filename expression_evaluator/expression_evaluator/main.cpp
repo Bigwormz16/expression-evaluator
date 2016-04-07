@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <string>
+#include <stdexcept> // invalid_argument exception
 #include "ExpressionEvaluator.h"
 #include "Report.h"
 
