@@ -13,32 +13,57 @@ using namespace psands_cisp430_a2;
 using namespace psands_cisp430_a3;
 
 string getReportHeader();
-void generateExpressionReport(char * fileName);
+void generateExpressionReport(string fileName = "expression-report.txt");
 
 int displayMainMenu();
 void displayInteractiveExpressionEvaluator();
 void displayReportGenerator();
 
 /*
-	Goal: Demonstrate expression evaluation and variable assignment by generating report
-		that evaluates expressions defined in assignment spec.
+	Goal: Demonstrate expression evaluation and variable assignment by allowing interactive
+		expression evaluation or generating report that evaluates expressions defined in
+		assignment spec.
 
-	assign initial values to variables:
-		alpha = 5
-		beta = 10
-		gamma = -1
-		delta = 2
-	bonus: demonstrate assigning value to variable with alpha numeric name
-		alpha1 = alpha + beta (15)
+	Interactive Expression Evaluation
+		Loop until "(Q)uit is selected"
+		
+			Allow user to enter a valid expression,
+					i.e., "alpha = 5 * 10 + 3"
+				Display evaluated result of expression,
+					i.e., "53"
+				Store evaluated result in variable (symbol),
+					i.e., "alpha = 53"
 
-	assign alpha value of expression: alpha + beta / gamma * delta => 5 + 10 / -1 * 2 => 
-		-15
-	assign beta value of expression: 5 / 2.00 + alpha => 5 / 2.00 + -15 =>
-		-12.5
-	assign gamma value of expression: sin(alpha) + (gamma-delta) * 3 => -0.65029 + (-1-2) * 3 =>
-		-9.65029
-	assign delta value of expression: alpha - beta * gamma / delta => -15 - -12.5 * -9.65029 / 2 =>
-		-75.314
+			Allow user to enter a variable (symbol),
+					i.e., "alpha"
+				Display current value stored in variable (symbol),
+					i.e., "53"
+
+			Allow user to quit entering expressions and variables by
+				entering "Q" or "q" to quit
+
+
+	Generate report that fully demonstrates the expression evaluator by evaluating
+		each expression defined in the assignment specification.
+
+			assign initial values to variables:
+				alpha = 5
+				beta = 10
+				gamma = -1
+				delta = 2
+			bonus: demonstrate assigning value to variable with alpha numeric name
+				alpha1 = alpha + beta (15)
+
+			assign alpha value of expression: alpha + beta / gamma * delta => 5 + 10 / -1 * 2 => 
+				-15
+			assign beta value of expression: 5 / 2.00 + alpha => 5 / 2.00 + -15 =>
+				-12.5
+			assign gamma value of expression: sin(alpha) + (gamma-delta) * 3 => -0.65029 + (-1-2) * 3 =>
+				-9.65029
+			assign delta value of expression: alpha - beta * gamma / delta => -15 - -12.5 * -9.65029 / 2 =>
+				-75.314
+
+	Allow user to quit the program by entering "Q" or "q" to quit
 		
 */
 int main(void)
@@ -69,7 +94,7 @@ string getReportHeader()
 	return "Peter Sands\nW1541805\nCISP 430 WED 6:30\nSpring 2016\nAssign 3\n";
 }
 
-void generateExpressionReport(char * fileName)
+void generateExpressionReport(string fileName)
 {
 	Report expressionReport;
 	expressionReport.setReportHeader(getReportHeader());
@@ -115,9 +140,14 @@ void generateExpressionReport(char * fileName)
 	evaluator->evaluateExpression("delta = alpha - beta * gamma / delta");
 	expressionReport.addContent("Retrieving value of delta: " + to_string(evaluator->getExpressionResult("delta")) + "\n\n");
 
+	delete evaluator;
+
 	expressionReport.saveReport(fileName);
 }
 
+/*
+	Displays main menu with options and returns result of user selection
+*/
 int displayMainMenu()
 {
 	cout << "\n\n\n\n\t\t" << "Assignment 3 Expression Evaluator" << endl;
@@ -139,6 +169,14 @@ int displayMainMenu()
 	return (int)choice - 48;
 }
 
+/*
+	Displays an interactive expression evaluator menu,
+		allows user to input an expression that will be evaluated,
+		allows user to enter a variable that will show the current value,
+		allows user to quit interactive expression evaluation.
+
+		* - ExpressionEvaluator will throw exception on ill-formed expressions
+*/
 void displayInteractiveExpressionEvaluator()
 {
 	// ignoring "cin >> " call that took us to this menu
@@ -153,7 +191,8 @@ void displayInteractiveExpressionEvaluator()
 		cout << "\tEnter an expression to evaluate, or\n\tVariable name to see current value, or\n\tQ to quit\n\n\t";
 
 		cin.clear();
-		getline(cin, userInput);
+		// gets expression as user input
+		getline(cin, userInput); 
 
 		if ("Q" == userInput || "q" == userInput)
 		{
@@ -161,6 +200,7 @@ void displayInteractiveExpressionEvaluator()
 		}
 		else
 		{
+			// catch invalid_argument as ill-formed expressions
 			try
 			{
 				double expressionResult = evaluator->getExpressionResult(userInput);
@@ -179,5 +219,24 @@ void displayInteractiveExpressionEvaluator()
 
 void displayReportGenerator()
 {
+	// ignoring "cin >> " call that took us to this menu
+	cin.ignore();
 
+	cout << "\tGenerating report that will demonstrate capabilities of expression\nevaluator by evaluating each expression defined in assignment specification.\n\n";
+	cout << "\tEnter filename or skip to use default (default 'expression-report.txt'): ";
+
+	string filename;
+	getline(cin, filename);
+
+	if ("" == filename)
+	{
+		// uses default filename 'expression-report.txt'
+		generateExpressionReport();
+	}
+	else
+	{
+		generateExpressionReport(filename);
+	}
+
+	cout << "\n\n\n\n";
 }

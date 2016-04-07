@@ -78,7 +78,7 @@ std::string Report::generateReport() const
 		close file
 \endcode
 */
-void Report::saveReport(char * filename) const
+void Report::saveReport(std::string filename) const
 {
 	std::ofstream output;
 	output.open(filename);

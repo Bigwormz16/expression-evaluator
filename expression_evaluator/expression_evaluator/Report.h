@@ -61,11 +61,10 @@ namespace psands_cisp430_a2
 		std::string generateReport() const;
 
 		/**
-			outputs the content of the report to a file
-			@param filename the file to output the report to
+		outputs the content of the report to a file
+		@param filename the file to output the report to
 		*/
-		void saveReport(char * filename) const;
-
+		void saveReport(std::string filename) const;
 	};	
 }
 
