@@ -12,6 +12,7 @@
 #include <string>
 #include "AbstractOperator.h"
 #include "Operand.h"
+#include "PolynomialTerm.h"
 
 namespace psands_cisp430_a3
 {
@@ -33,18 +34,20 @@ namespace psands_cisp430_a3
 		TokenType _tokenType;
 		Operand * _operand;
 		AbstractOperator * _abstractOperator;
+		PolynomialTerm * _polynomialTerm;
 	public:
 		Token();
 		Token(std::string tokenSymbol, unsigned int tokenPriority);
 		Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority);
 		Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority, Operand * operand);
-		Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority, AbstractOperator * abstractOperator);
+		Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority, AbstractOperator * abstractOperator, PolynomialTerm * _term);
 		~Token();
 		unsigned int getTokenPriority();
 		std::string getTokenSymbol();
 		TokenType getTokenType();
 		Operand * getOperand();
 		AbstractOperator * getOperator();
+		PolynomialTerm * getPolynomialTerm();
 	};
 }
 

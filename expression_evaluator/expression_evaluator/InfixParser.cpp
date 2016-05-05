@@ -7,47 +7,111 @@
 #include "Queue.h"
 #include "Stack.h"
 #include "Token.h"
+#include "PolynomialTerm.h"
 
 using namespace std;
 using namespace psands_cisp430_a2;
 using namespace psands_cisp430_a3;
 
-void InfixParser::infixNextStateS1(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
+void InfixParser::infixNextStateS1(Queue<Token*>* input, Stack<Token*>* output, Stack<Token*>* operatorStack)
 {
-	output->enqueue(input->dequeue());
+	output->push(input->dequeue());
 }
 
-void InfixParser::infixNextStateS2(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
+void InfixParser::infixNextStateS2(Queue<Token*>* input, Stack<Token*>* output, Stack<Token*>* operatorStack)
 {
 	operatorStack->push(input->dequeue());
 }
 
-void InfixParser::infixNextStateErr(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
+void InfixParser::infixNextStateErr(Queue<Token*>* input, Stack<Token*>* output, Stack<Token*>* operatorStack)
 {
 	this->_isError = true;
 }
 
-void InfixParser::infixNextStateU1(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
+void InfixParser::infixNextStateU1(Queue<Token*>* input, Stack<Token*>* output, Stack<Token*>* operatorStack)
 {
-	output->enqueue(operatorStack->pop());
+	output->push(operatorStack->pop());
 }
 
-void InfixParser::infixNextStateU2(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
+void InfixParser::infixNextStateU2(Queue<Token*>* input, Stack<Token*>* output, Stack<Token*>* operatorStack)
 {
 	while (!operatorStack->isEmpty())
 	{
-		output->enqueue(operatorStack->pop());
+		output->push(operatorStack->pop());
 	}
 }
 
-void InfixParser::infixNextStateUC(Queue<Token*>* input, Queue<Token*>* output, Stack<Token*>* operatorStack)
+void InfixParser::infixNextStateUC(Queue<Token*>* input, Stack<Token*>* output, Stack<Token*>* operatorStack)
 {
 	while ("(" != operatorStack->peek()->getTokenSymbol())
 	{
-		output->enqueue(operatorStack->pop());
+		output->push(operatorStack->pop());
 	}
 	operatorStack->pop(); // discard the "("
 	input->dequeue(); // discard the ")"
+}
+
+psands_cisp430_a2::Queue<Token*>* psands_cisp430_a3::InfixParser::getPolynomialPostfixTokenQueue(psands_cisp430_a2::Stack<Token*> * postfixTokenQueue)
+{
+	Queue<Token *> * result = new Queue<Token *>();
+
+	Token * previousToken = nullptr;
+	bool isPolynomialTerm = false;
+	bool hasCoefficient = false;
+	bool hasSetExponent = false;
+	bool hasSetToken = false;
+	PolynomialTerm * term = nullptr;
+
+	while (false == postfixTokenQueue->isEmpty())
+	{
+		Token * currentToken = postfixTokenQueue->pop();
+
+		if (true == isPolynomialTerm)
+		{
+			if (false == hasSetExponent)
+			{
+				term->setExponent(currentToken->getOperand()->getValue());
+				hasSetExponent = true;
+			}
+			else if (false == hasSetToken)
+			{
+				term->setToken(currentToken);
+				hasSetToken = true;
+			}
+			else if(true == hasCoefficient)
+			{
+				term->setCoefficient(currentToken->getOperand()->getValue());
+
+				isPolynomialTerm = false;
+				hasCoefficient = false;
+				hasSetExponent = false;
+				hasSetToken = false;
+			}
+			else
+			{
+				term->setCoefficient(1);
+				isPolynomialTerm = false;
+				hasCoefficient = false;
+				hasSetExponent = false;
+				hasSetToken = false;
+			}
+
+		}
+
+		if ("^" == currentToken->getTokenSymbol())
+		{
+			term = new PolynomialTerm();
+			isPolynomialTerm = true;
+			if ("*" == previousToken->getTokenSymbol())
+			{
+				hasCoefficient = true;
+			}
+		}
+
+		previousToken = currentToken;
+	}
+
+	return result;
 }
 
 InfixParser::InfixParser()
@@ -105,7 +169,7 @@ Queue<Token*>* InfixParser::getPostfixTokenQueue(Queue<Token*>* infixTokenQueue)
 {
 	this->_isError = false;
 
-	Queue<Token *> * result = new Queue<Token*>(); // this is where the postfix expression will end up
+	Stack<Token *> * postfixExpr = new Stack<Token*>(); // this is where the postfix expression will end up
 	Stack<Token *> * s2 = new Stack<Token*>(); // this is the intermediate stack that stores operators
 
 	while (!infixTokenQueue->isEmpty() && false == this->_isError)
@@ -122,30 +186,32 @@ Queue<Token*>* InfixParser::getPostfixTokenQueue(Queue<Token*>* infixTokenQueue)
 		switch (infixParseAction)
 		{
 		case S1:
-			this->infixNextStateS1(infixTokenQueue, result, s2);
+			this->infixNextStateS1(infixTokenQueue, postfixExpr, s2);
 			break;
 		case S2:
-			this->infixNextStateS2(infixTokenQueue, result, s2);
+			this->infixNextStateS2(infixTokenQueue, postfixExpr, s2);
 			break;
 		case U1:
-			this->infixNextStateU1(infixTokenQueue, result, s2);
+			this->infixNextStateU1(infixTokenQueue, postfixExpr, s2);
 			break;
 		case U2:
-			this->infixNextStateU2(infixTokenQueue, result, s2);
+			this->infixNextStateU2(infixTokenQueue, postfixExpr, s2);
 			break;
 		case UC:
-			this->infixNextStateUC(infixTokenQueue, result, s2);
+			this->infixNextStateUC(infixTokenQueue, postfixExpr, s2);
 			break;
 		case ERR:
-			this->infixNextStateErr(infixTokenQueue, result, s2);
+			this->infixNextStateErr(infixTokenQueue, postfixExpr, s2);
 			break;
 		}
 	}
 
 	if (!s2->isEmpty())
 	{
-		this->infixNextStateU2(infixTokenQueue, result, s2);
+		this->infixNextStateU2(infixTokenQueue, postfixExpr, s2);
 	}
+
+	Queue<Token *> * result = this->getPolynomialPostfixTokenQueue(postfixExpr);
 	
 	return result;
 }
