@@ -57,24 +57,39 @@ InfixParser::InfixParser()
 	// operands
 	this->_parsetable[0][0] = S1; this->_parsetable[0][1] = S1; this->_parsetable[0][2] = S1;
 		this->_parsetable[0][3] = S1; this->_parsetable[0][4] = S1; this->_parsetable[0][5] = S1;
+		this->_parsetable[0][6] = S1; this->_parsetable[0][7] = S1;
 	// =
 	this->_parsetable[1][0] = S2; this->_parsetable[1][1] = ERR; this->_parsetable[1][2] = ERR;
 		this->_parsetable[1][3] = ERR; this->_parsetable[1][4] = ERR; this->_parsetable[1][5] = ERR;
+		this->_parsetable[1][6] = ERR; this->_parsetable[1][7] = ERR;
 	// +-
 	this->_parsetable[2][0] = ERR; this->_parsetable[2][1] = S2; this->_parsetable[2][2] = U1;
-		this->_parsetable[2][3] = U1; this->_parsetable[2][4] = U1; this->_parsetable[2][5] = S2;
+		this->_parsetable[2][3] = U1; this->_parsetable[2][4] = U1; this->_parsetable[2][5] = U1;
+		this->_parsetable[2][6] = U1; this->_parsetable[2][7] = S2;
 	// */
 	this->_parsetable[3][0] = ERR; this->_parsetable[3][1] = S2; this->_parsetable[3][2] = S2;
-		this->_parsetable[3][3] = U1; this->_parsetable[3][4] = U1; this->_parsetable[3][5] = S2;
+		this->_parsetable[3][3] = U1; this->_parsetable[3][4] = U1; this->_parsetable[3][5] = U1;
+		this->_parsetable[3][6] = U1; this->_parsetable[3][7] = S2;
 	// sin,cos,abs,sqrt
 	this->_parsetable[4][0] = ERR; this->_parsetable[4][1] = S2; this->_parsetable[4][2] = S2;
-		this->_parsetable[4][3] = S2; this->_parsetable[4][4] = U1; this->_parsetable[4][5] = S2;
-	// (
+		this->_parsetable[4][3] = S2; this->_parsetable[4][4] = U1; this->_parsetable[4][5] = U1;
+		this->_parsetable[4][6] = U1; this->_parsetable[4][7] = S2;
+	// neg
 	this->_parsetable[5][0] = ERR; this->_parsetable[5][1] = S2; this->_parsetable[5][2] = S2;
-		this->_parsetable[5][3] = S2; this->_parsetable[5][4] = S2; this->_parsetable[5][5] = S2;
+		this->_parsetable[5][3] = S2; this->_parsetable[5][4] = S2; this->_parsetable[5][5] = U1;
+		this->_parsetable[5][6] = U1; this->_parsetable[5][7] = S2;
+	// exponent
+	this->_parsetable[6][0] = ERR; this->_parsetable[6][1] = S2; this->_parsetable[6][2] = S2;
+		this->_parsetable[6][3] = S2; this->_parsetable[6][4] = S2; this->_parsetable[6][5] = S2;
+		this->_parsetable[6][6] = U1; this->_parsetable[6][7] = S2;
+	// (
+	this->_parsetable[7][0] = ERR; this->_parsetable[7][1] = S2; this->_parsetable[7][2] = S2;
+		this->_parsetable[7][3] = S2; this->_parsetable[7][4] = S2; this->_parsetable[7][5] = S2;
+		this->_parsetable[7][6] = S2; this->_parsetable[7][7] = S2;
 	// )
-	this->_parsetable[6][0] = ERR; this->_parsetable[6][1] = UC; this->_parsetable[6][2] = UC;
-		this->_parsetable[6][3] = UC; this->_parsetable[6][4] = UC; this->_parsetable[6][5] = UC;
+	this->_parsetable[8][0] = ERR; this->_parsetable[8][1] = UC; this->_parsetable[8][2] = UC;
+		this->_parsetable[8][3] = UC; this->_parsetable[8][4] = UC; this->_parsetable[8][5] = UC;
+		this->_parsetable[8][6] = UC; this->_parsetable[8][7] = UC;
 
 }
 

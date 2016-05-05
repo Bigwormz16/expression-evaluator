@@ -25,6 +25,7 @@ namespace psands_cisp430_a3 {
 	double sqrt(double p1) { return std::sqrt(p1); }
 	double abs(double p1) { return std::abs(p1); }
 	double negative(double p1) { return p1 * -1; }
+	double exponent(double p1, double p2) { return std::pow(p1, p2); }
 }
 // to this point the operand has been the combination of sequential characters fitting in a-z, A-Z, 0-9, and the . character
 // first step is to determine if the combination of characters actually represents an operator: "sin", "cos", "sqrt", or "abs" for our purposes
@@ -95,6 +96,10 @@ void Tokenizer::processOperator(std::string oprator, bool isPrevTokenOperator, Q
 	{
 		tokenizedQueue->enqueue(this->_divisionToken);
 	}
+	else if ("^" == oprator)
+	{
+		tokenizedQueue->enqueue(this->_exponentToken);
+	}
 	else if ("sin" == oprator)
 	{
 		tokenizedQueue->enqueue(this->_sinToken);
@@ -138,9 +143,12 @@ Tokenizer::Tokenizer()
 	// higher priority than other operations
 	this->_negativeToken = new Token("neg", UNARYOPERATOR, 5, new UnaryOperator(negative));
 
+	// adding support for exponent sign, which is a binary operation
+	this->_exponentToken = new Token("^", BINARYOPERATOR, 6, new BinaryOperator(exponent));
+
 	// special tokens
-	this->_openParenToken = new Token("(", SPECIAL, 5);
-	this->_closeParenToken = new Token(")", SPECIAL, 6);
+	this->_openParenToken = new Token("(", SPECIAL, 7);
+	this->_closeParenToken = new Token(")", SPECIAL, 8);
 }
 
 Tokenizer::Tokenizer(Symboltable * symboltable) : Tokenizer()
@@ -176,7 +184,7 @@ Queue<Token*>* Tokenizer::getTokenQueue(std::string expression)
 	Queue<Token *> * result = new Queue<Token *>();
 
 	std::regex operand("[a-zA-Z0-9\.]");
-	std::regex oprator("[\+\-/\\*=()]");
+	std::regex oprator("[\+\-/\\*=()\^]");
 
 	std::string nextOperand = "";
 	std::string nextOperator = "";

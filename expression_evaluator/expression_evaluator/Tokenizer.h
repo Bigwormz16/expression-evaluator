@@ -25,6 +25,7 @@ namespace psands_cisp430_a3
 		Token * _openParenToken, *_closeParenToken;
 		Token * _sinToken, *_cosToken, *_sqrtToken, *_absToken;
 		Token * _negativeToken;
+		Token * _exponentToken;
 		void processOperand(std::string operand, bool isPrevTokenOperator, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
 		void processOperator(std::string oprator, bool isPrevTokenOperator, psands_cisp430_a2::Queue<Token *> * tokenizedQueue);
 	public:

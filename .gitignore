@@ -210,3 +210,6 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/expression_evaluator/expression_evaluator/expression-report.txt
+/expression_evaluator/expression_evaluator.VC.VC.opendb
+/expression_evaluator/expression_evaluator.VC.db
