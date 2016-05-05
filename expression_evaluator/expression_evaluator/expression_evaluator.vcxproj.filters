@@ -69,6 +69,9 @@
     <ClInclude Include="Symboltable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PolynomialTerm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -102,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Symboltable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PolynomialTerm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

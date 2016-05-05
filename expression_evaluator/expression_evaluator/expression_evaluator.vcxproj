@@ -116,6 +116,7 @@
     <ClCompile Include="InfixParser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Operand.cpp" />
+    <ClCompile Include="PolynomialTerm.cpp" />
     <ClCompile Include="Report.cpp" />
     <ClCompile Include="Symboltable.cpp" />
     <ClCompile Include="Token.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="List.h" />
     <ClInclude Include="ListIterator.h" />
     <ClInclude Include="Operand.h" />
+    <ClInclude Include="PolynomialTerm.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Report.h" />
     <ClInclude Include="Slot.h" />
