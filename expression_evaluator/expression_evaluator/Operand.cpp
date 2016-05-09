@@ -4,6 +4,7 @@
 // Assign 3
 
 #include "Operand.h"
+#include <cmath>
 
 using namespace psands_cisp430_a3;
 
@@ -33,4 +34,54 @@ void Operand::setValue(const double value)
 std::string psands_cisp430_a3::Operand::toString() const
 {
 	return std::to_string(this->getValue());
+}
+
+Operand * psands_cisp430_a3::Operand::operator+(const Operand & operand)
+{
+	return new Operand(this->getValue() + operand.getValue());
+}
+
+Operand * psands_cisp430_a3::Operand::operator-(const Operand & operand)
+{
+	return new Operand(this->getValue() - operand.getValue());
+}
+
+Operand * psands_cisp430_a3::Operand::operator*(const Operand & operand)
+{
+	return new Operand(this->getValue() * operand.getValue());
+}
+
+Operand * psands_cisp430_a3::Operand::operator/(const Operand & operand)
+{
+	return new Operand(this->getValue() / operand.getValue());
+}
+
+Operand * psands_cisp430_a3::Operand::sin()
+{
+	return new Operand(std::sin(this->getValue()));
+}
+
+Operand * psands_cisp430_a3::Operand::cos()
+{
+	return new Operand(std::cos(this->getValue()));
+}
+
+Operand * psands_cisp430_a3::Operand::sqrt()
+{
+	return new Operand(std::sqrt(this->getValue()));
+}
+
+Operand * psands_cisp430_a3::Operand::abs()
+{
+	return new Operand(std::abs(this->getValue()));
+}
+
+Operand * psands_cisp430_a3::Operand::negative()
+{
+	return new Operand(this->getValue() * -1);
+}
+
+Operand * psands_cisp430_a3::Operand::pow(const Operand & operand)
+{
+	return new Operand(std::pow(this->getValue(), operand.getValue()));
 }

@@ -12,21 +12,22 @@
 #include "Token.h"
 #include "UnaryOperator.h"
 #include "Variable.h"
+#include "Operand.h"
 
 using namespace psands_cisp430_a2;
 using namespace psands_cisp430_a3;
 
 namespace psands_cisp430_a3 {
-	double add(double p1, double p2) { return p1 + p2; }
-	double subtract(double p1, double p2) { return p1 - p2; }
-	double multiply(double p1, double p2) { return p1 * p2; }
-	double divide(double p1, double p2) { return p1 / p2; }
-	double sin(double p1) { return std::sin(p1); }
-	double cos(double p1) { return std::cos(p1); }
-	double sqrt(double p1) { return std::sqrt(p1); }
-	double abs(double p1) { return std::abs(p1); }
-	double negative(double p1) { return p1 * -1; }
-	double exponent(double p1, double p2) { return std::pow(p1, p2); }
+	Operand * add(Operand * p1, Operand * p2) { return *p1 + *p2; }
+	Operand * subtract(Operand * p1, Operand * p2) { return *p1 - *p2; }
+	Operand * multiply(Operand * p1, Operand * p2) { return *p1 * *p2; }
+	Operand * divide(Operand * p1, Operand * p2) { return *p1 / *p2; }
+	Operand * sin(Operand * p1) { return p1->sin(); }
+	Operand * cos(Operand * p1) { return p1->cos(); }
+	Operand * sqrt(Operand * p1) { return p1->sqrt(); }
+	Operand * abs(Operand * p1) { return p1->abs(); }
+	Operand * negative(Operand * p1) { return p1->negative(); }
+	Operand * exponent(Operand * p1, Operand * p2) { return p1->pow(*p2); }
 }
 // to this point the operand has been the combination of sequential characters fitting in a-z, A-Z, 0-9, and the . character
 // first step is to determine if the combination of characters actually represents an operator: "sin", "cos", "sqrt", or "abs" for our purposes

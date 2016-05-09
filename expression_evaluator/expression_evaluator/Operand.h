@@ -23,6 +23,19 @@ namespace psands_cisp430_a3
 		double getValue() const;
 		void setValue(const double value);
 		virtual std::string toString() const;
+
+		Operand * operator+(const Operand & operand);
+		Operand * operator-(const Operand & operand);
+		Operand * operator*(const Operand & operand);
+		Operand * operator/(const Operand & operand);
+
+		Operand * sin();
+		Operand * cos();
+		Operand * sqrt();
+		Operand * abs();
+		Operand * negative();
+
+		Operand * pow(const Operand & operand);
 	};
 }
 

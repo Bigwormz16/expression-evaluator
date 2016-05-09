@@ -14,7 +14,7 @@ BinaryOperator::BinaryOperator()
 	this->_numberOfOperands = 2;
 }
 
-BinaryOperator::BinaryOperator(const std::function<double(double, double)>& operatorFunction) : BinaryOperator()
+BinaryOperator::BinaryOperator(const std::function<Operand *(Operand *, Operand *)>& operatorFunction) : BinaryOperator()
 {
 	this->operatorFunction = operatorFunction;
 }
@@ -28,6 +28,6 @@ Operand * BinaryOperator::Evaluate(List<Operand *> * operands)
 	AbstractOperator::Evaluate(operands);
 
 	// operand elements are arriving in reverse order due to the behavior of postfix evaluation stack
-	Operand * result = new Operand(this->operatorFunction(operands->getElementAt(1)->getValue(), operands->getElementAt(0)->getValue()));
+	Operand * result = this->operatorFunction(operands->getElementAt(1), operands->getElementAt(0));
 	return result;
 }

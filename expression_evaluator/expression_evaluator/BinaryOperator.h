@@ -19,10 +19,10 @@ namespace psands_cisp430_a3
 		public AbstractOperator
 	{
 	private:
-		std::function<double(double, double)> operatorFunction;
+		std::function<Operand *(Operand *, Operand *)> operatorFunction;
 	public:
 		BinaryOperator();
-		BinaryOperator(const std::function<double(double, double)> & operatorFunction);
+		BinaryOperator(const std::function<Operand *(Operand *, Operand *)> & operatorFunction);
 		~BinaryOperator();
 		Operand * Evaluate(psands_cisp430_a2::List<Operand *> * operands) override;
 	};

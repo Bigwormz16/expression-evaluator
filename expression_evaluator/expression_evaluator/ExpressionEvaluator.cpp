@@ -11,6 +11,7 @@
 #include "Queue.h"
 #include "Token.h"
 #include "Tokenizer.h"
+#include "Variable.h"
 
 using namespace std;
 using namespace psands_cisp430_a2;
@@ -95,7 +96,7 @@ double ExpressionEvaluator::getExpressionResult(string expression)
 		else if (ASSIGNMENTOPERATOR == currentTokenType)
 		{
 			Operand * assignedOperand = evaluationStack->pop();
-			Operand * assigneeOperand = evaluationStack->pop();
+			Variable * assigneeOperand = ((Variable *)evaluationStack->pop());
 
 			assigneeOperand->setValue(assignedOperand->getValue());
 			evaluationStack->push(assigneeOperand);
