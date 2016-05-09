@@ -8,6 +8,8 @@
 #ifndef PSANDS_CISP430_OPERAND_H
 #define PSANDS_CISP430_OPERAND_H
 
+#include <string>
+
 namespace psands_cisp430_a3
 {
 	class Operand
@@ -16,10 +18,11 @@ namespace psands_cisp430_a3
 		double _value;
 	public:
 		Operand();
-		Operand(double value);
-		~Operand();
-		double getValue();
-		void setValue(double value);
+		Operand(const double value);
+		Operand(const Operand & operand);
+		double getValue() const;
+		void setValue(const double value);
+		virtual std::string toString() const;
 	};
 }
 

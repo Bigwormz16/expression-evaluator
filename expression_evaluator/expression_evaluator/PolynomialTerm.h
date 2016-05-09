@@ -1,34 +1,30 @@
 #ifndef PSANDS_CISP430_POLYNOMIALTERM_H
 #define PSANDS_CISP430_POLYNOMIALTERM_H
 
-#include "Token.h"
+#include "Operand.h"
 
 namespace psands_cisp430_a3
 {
 	class PolynomialTerm
+		: public Operand
 	{
 	private:
 		double _coefficient;
 		double _exponent;
-		Token * _token;
+		Operand * _operand;
 
 	public:
 		PolynomialTerm();
-		PolynomialTerm(double coefficient, double exponent, Token * token);
+		PolynomialTerm(const double coefficient, const double exponent, Operand * operand);
 		PolynomialTerm(const PolynomialTerm & polynomialTerm);
 
 		double getCoefficient() const;
 		double getExponent() const;
-		Token * getToken() const;
+		Operand * getOperand() const;
 
-		void setCoefficient(double coefficient);
-		void setExponent(double exponent);
-		void setToken(Token * token);
-
-		// math functions
-		bool canAdd(const PolynomialTerm & polynomialTerm);
-		bool canSubtract(const PolynomialTerm & polynomialTerm);
-		bool canMultiply(const PolynomialTerm & polynomialTerm);
+		void setCoefficient(const double coefficient);
+		void setExponent(const double exponent);
+		void setOperand(Operand * operand);
 
 		PolynomialTerm operator+(const PolynomialTerm & polynomialTerm);
 		PolynomialTerm operator-(const PolynomialTerm & polynomialTerm);

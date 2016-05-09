@@ -11,21 +11,26 @@ Operand::Operand()
 {
 }
 
-Operand::Operand(double value)
+Operand::Operand(const double value)
 {
 	this->_value = value;
 }
 
-Operand::~Operand()
+psands_cisp430_a3::Operand::Operand(const Operand & operand) : Operand(operand.getValue())
 {
 }
 
-double Operand::getValue()
+double psands_cisp430_a3::Operand::getValue() const
 {
 	return this->_value;
 }
 
-void Operand::setValue(double value)
+void Operand::setValue(const double value)
 {
 	this->_value = value;
+}
+
+std::string psands_cisp430_a3::Operand::toString() const
+{
+	return std::to_string(this->getValue());
 }
