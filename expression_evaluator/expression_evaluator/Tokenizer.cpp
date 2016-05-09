@@ -11,6 +11,7 @@
 #include "List.h"
 #include "Token.h"
 #include "UnaryOperator.h"
+#include "Variable.h"
 
 using namespace psands_cisp430_a2;
 using namespace psands_cisp430_a3;
@@ -55,7 +56,7 @@ void Tokenizer::processOperand(std::string operand, bool isPrevTokenOperator, Qu
 			Operand * oprnd = this->_symboltable->get(operand);
 			if (nullptr == oprnd)
 			{
-				oprnd = new Operand(0.0);
+				oprnd = new Variable(operand);
 				this->_symboltable->insert(operand, oprnd);
 			}
 			tokenizedQueue->enqueue(new Token(operand, OPERAND, 0, oprnd));

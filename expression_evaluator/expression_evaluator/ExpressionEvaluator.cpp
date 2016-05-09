@@ -100,6 +100,19 @@ double ExpressionEvaluator::getExpressionResult(string expression)
 			assigneeOperand->setValue(assignedOperand->getValue());
 			evaluationStack->push(assigneeOperand);
 		}
+		else if (TokenType::POLYNOMIALTERM == currentTokenType)
+		{
+			PolynomialTerm * term = ((PolynomialTerm *)currentToken->getOperand());
+
+			if (true == term->canEvaluate())
+			{
+				evaluationStack->push(new Operand(term->getValue()));
+			}
+			else
+			{
+				evaluationStack->push(term);
+			}
+		}
 
 		if (UNARYOPERATOR == currentTokenType ||
 			BINARYOPERATOR == currentTokenType)

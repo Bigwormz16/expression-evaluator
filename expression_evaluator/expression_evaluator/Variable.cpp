@@ -34,3 +34,8 @@ std::string psands_cisp430_a3::Variable::toString() const
 	}
 	return this->_name;
 }
+
+bool psands_cisp430_a3::Variable::isInitialized() const
+{
+	return this->_isInitialized;
+}

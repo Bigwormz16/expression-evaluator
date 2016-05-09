@@ -53,7 +53,7 @@ void InfixParser::infixNextStateUC(Queue<Token*>* input, Stack<Token*>* output, 
 
 psands_cisp430_a2::Queue<Token*>* psands_cisp430_a3::InfixParser::getPolynomialPostfixTokenQueue(psands_cisp430_a2::Stack<Token*> * postfixTokenQueue)
 {
-	Queue<Token *> * result = new Queue<Token *>();
+	Stack<Token *> * temp = new Stack<Token *>();
 
 	Token * previousToken = nullptr;
 	bool isPolynomialTerm = false;
@@ -66,6 +66,11 @@ psands_cisp430_a2::Queue<Token*>* psands_cisp430_a3::InfixParser::getPolynomialP
 	{
 		Token * currentToken = postfixTokenQueue->pop();
 
+		if (false == isPolynomialTerm)
+		{
+			temp->push(currentToken);
+		}
+
 		if (true == isPolynomialTerm)
 		{
 			if (false == hasSetExponent)
@@ -75,7 +80,7 @@ psands_cisp430_a2::Queue<Token*>* psands_cisp430_a3::InfixParser::getPolynomialP
 			}
 			else if (false == hasSetToken)
 			{
-				term->setToken(currentToken);
+				term->setOperand(currentToken->getOperand());
 				hasSetToken = true;
 			}
 			else if(true == hasCoefficient)
@@ -86,6 +91,8 @@ psands_cisp430_a2::Queue<Token*>* psands_cisp430_a3::InfixParser::getPolynomialP
 				hasCoefficient = false;
 				hasSetExponent = false;
 				hasSetToken = false;
+
+				temp->push(new Token(term->toString(), TokenType::POLYNOMIALTERM, 10, term));
 			}
 			else
 			{
@@ -94,6 +101,8 @@ psands_cisp430_a2::Queue<Token*>* psands_cisp430_a3::InfixParser::getPolynomialP
 				hasCoefficient = false;
 				hasSetExponent = false;
 				hasSetToken = false;
+
+				temp->push(new Token(term->toString(), TokenType::POLYNOMIALTERM, 10, term));
 			}
 
 		}
@@ -102,14 +111,25 @@ psands_cisp430_a2::Queue<Token*>* psands_cisp430_a3::InfixParser::getPolynomialP
 		{
 			term = new PolynomialTerm();
 			isPolynomialTerm = true;
+			temp->pop();
 			if ("*" == previousToken->getTokenSymbol())
 			{
 				hasCoefficient = true;
+				temp->pop();
 			}
 		}
 
 		previousToken = currentToken;
 	}
+
+	Queue<Token *> * result = new Queue<Token *>();
+
+	while (false == temp->isEmpty())
+	{
+		result->enqueue(temp->pop());
+	}
+
+	delete temp;
 
 	return result;
 }

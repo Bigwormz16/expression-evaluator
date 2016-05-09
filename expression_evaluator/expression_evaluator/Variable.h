@@ -19,6 +19,7 @@ namespace psands_cisp430_a3
 		Variable(const Variable & variable);
 		void setValue(const double value);
 		virtual std::string toString() const override;
+		bool isInitialized() const;
 	};
 }
 

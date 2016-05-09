@@ -2,6 +2,7 @@
 #define PSANDS_CISP430_POLYNOMIALTERM_H
 
 #include "Operand.h"
+#include <string>
 
 namespace psands_cisp430_a3
 {
@@ -26,10 +27,14 @@ namespace psands_cisp430_a3
 		void setExponent(const double exponent);
 		void setOperand(Operand * operand);
 
+		bool canEvaluate();
+		double getValue();
+
 		PolynomialTerm operator+(const PolynomialTerm & polynomialTerm);
 		PolynomialTerm operator-(const PolynomialTerm & polynomialTerm);
 		PolynomialTerm operator*(const PolynomialTerm & polynomialTerm);
 
+		virtual std::string toString() const override;
 	};
 }
 
