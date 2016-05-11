@@ -30,8 +30,8 @@ namespace psands_cisp430_a3
 		ExpressionEvaluator(std::string expression);
 		~ExpressionEvaluator();
 		void setExpression(std::string expression);
-		double getExpressionResult();
-		double getExpressionResult(std::string expression);
+		std::string getExpressionResult();
+		std::string getExpressionResult(std::string expression);
 		void evaluateExpression();
 		void evaluateExpression(std::string expression);
 		std::ostream & displayExpression(std::ostream & ostream);
