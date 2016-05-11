@@ -68,9 +68,14 @@ std::string ExpressionEvaluator::getExpressionResult(string expression)
 	}
 
 	// evaluate the postfixTokenQueue
-	Stack<Operand *> * evaluationStack = new Stack<Operand *>();
+	Stack<PolynomialTerm *> * evaluationStack = new Stack<PolynomialTerm *>();
 
 	List<Operand *> * operandsToEvaluate = new List<Operand *>();
+
+	Polynomial * result = new Polynomial();
+
+	bool isFirstOpr = false;
+	bool isSecondOpr = false;
 
 	while (!postfixTokenQueue->isEmpty())
 	{
@@ -80,42 +85,61 @@ std::string ExpressionEvaluator::getExpressionResult(string expression)
 		if (TokenType::POLYNOMIALTERM == currentTokenType)
 		{
 			PolynomialTerm * term = currentToken->getPolynomialTerm();
+			evaluationStack->push(term);
 
+			if (false == isSecondOpr && true == isFirstOpr)
+			{
+				isSecondOpr = true;
+				result->add(term);
+				evaluationStack->pop();
+			}
+			if (false == isFirstOpr)
+			{
+				isFirstOpr = true;
+			}
 		}
 		else if (UNARYOPERATOR == currentTokenType)
 		{
 			// unary operators need one operand
-			operandsToEvaluate->add(evaluationStack->pop());
+			//operandsToEvaluate->add(evaluationStack->pop());
 		}
 		else if (BINARYOPERATOR == currentTokenType)
 		{
-			// binary operators get two operands	
-			operandsToEvaluate->add(evaluationStack->pop());
-			operandsToEvaluate->add(evaluationStack->pop());
+			// binary operators get two operands
+			//operandsToEvaluate->add(evaluationStack->pop());
+			//operandsToEvaluate->add(evaluationStack->pop());
 		}
 		else if (ASSIGNMENTOPERATOR == currentTokenType)
 		{
+			PolynomialTerm * assignmentVar = evaluationStack->pop();
+
+			assignmentVar->getVarTerm()->setValue(result);
 		}
 
 		if (UNARYOPERATOR == currentTokenType ||
 			BINARYOPERATOR == currentTokenType)
 		{
-			Operand * evaluatedResult = currentToken->getOperator()->Evaluate(operandsToEvaluate);
-			evaluationStack->push(evaluatedResult);
-
-			// after evaluating operands, remove them from the list for the next operation
-			operandsToEvaluate->removeAll();
+			if ("+" == currentToken->getTokenSymbol())
+			{
+				result->add(evaluationStack->pop());
+			}
+			else if ("-" == currentToken->getTokenSymbol())
+			{
+				result->subtract(evaluationStack->pop());
+			}
+			else if ("*" == currentToken->getTokenSymbol())
+			{
+				result->multiply(evaluationStack->pop());
+			}
 		}
 	}
-
-	std::string result = evaluationStack->pop()->toString();
 
 	// clean up allocations
 	delete infixTokenQueue;
 	delete postfixTokenQueue;
 	delete operandsToEvaluate;
 
-	return result;
+	return result->toString();
 }
 
 void ExpressionEvaluator::evaluateExpression()

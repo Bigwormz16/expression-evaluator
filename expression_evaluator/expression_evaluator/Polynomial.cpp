@@ -1,7 +1,10 @@
 #include "Polynomial.h"
+#include "PolynomialTerm.h"
+#include "List.h"
 
 psands_cisp430_a3::Polynomial::Polynomial()
 {
+	this->_terms = new psands_cisp430_a2::List<PolynomialTerm *>();
 }
 
 psands_cisp430_a3::Polynomial::~Polynomial()
@@ -10,6 +13,16 @@ psands_cisp430_a3::Polynomial::~Polynomial()
 
 void psands_cisp430_a3::Polynomial::add(PolynomialTerm * term)
 {
+	for (int i = 0; i < this->_terms->getCount(); i++)
+	{
+		PolynomialTerm * lt = this->_terms->getElementAt(i);
+		if (true == term->canEvaluate() && true == lt->canEvaluate())
+		{
+		}
+		
+	}
+
+	this->_terms->add(term);
 }
 
 void psands_cisp430_a3::Polynomial::subtract(PolynomialTerm * term)
