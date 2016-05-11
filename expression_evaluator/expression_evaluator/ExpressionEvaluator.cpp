@@ -4,6 +4,7 @@
 // Assign 3
 
 #include <stdexcept> // invalid_argument exception
+#include <string>
 #include "ExpressionEvaluator.h"
 #include "InfixParser.h"
 #include "List.h"
@@ -41,7 +42,7 @@ void ExpressionEvaluator::setExpression(string expression)
 	this->_expression = expression;
 }
 
-double ExpressionEvaluator::getExpressionResult()
+std::string ExpressionEvaluator::getExpressionResult()
 {
 	return this->getExpressionResult(this->_expression);
 }
@@ -56,7 +57,7 @@ double ExpressionEvaluator::getExpressionResult()
 		the result of the operation method is added to the evaluation stack
 		a well-formed postfix expression should result in a single value remaining in the evaluation stack, which is the result of the expression.
 */
-double ExpressionEvaluator::getExpressionResult(string expression)
+std::string ExpressionEvaluator::getExpressionResult(string expression)
 {
 	Queue<Token *> * infixTokenQueue = this->_tokenizer->getTokenQueue(expression);
 	Queue<Token *> * postfixTokenQueue = this->_infixParser->getPostfixTokenQueue(infixTokenQueue);
@@ -126,7 +127,7 @@ double ExpressionEvaluator::getExpressionResult(string expression)
 		}
 	}
 
-	double result = evaluationStack->pop()->getValue();
+	std::string result = evaluationStack->pop()->toString();
 
 	// clean up allocations
 	delete infixTokenQueue;
