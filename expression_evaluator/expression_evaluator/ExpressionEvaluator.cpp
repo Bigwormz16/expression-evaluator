@@ -78,7 +78,17 @@ double ExpressionEvaluator::getExpressionResult(string expression)
 
 		if (OPERAND == currentTokenType)
 		{
-			evaluationStack->push(currentToken->getOperand());
+			PolynomialTerm * operandTerm = new PolynomialTerm(1, 1, currentToken->getOperand());
+
+			evaluationStack->push(operandTerm);
+
+			delete currentToken;
+		}
+		else if (VARIABLE == currentTokenType)
+		{
+			PolynomialTerm * operandTerm = new PolynomialTerm(1, 1, currentToken->getOperand());
+
+			evaluationStack->push(operandTerm);
 
 			delete currentToken;
 		}
