@@ -106,15 +106,22 @@ void psands_cisp430_a3::PolynomialTerm::setDblTerm(const double dblTerm)
 
 bool psands_cisp430_a3::PolynomialTerm::canEvaluate()
 {
-	return this->hasDoubleTerm();
+	return this->hasDoubleTerm() || (nullptr != this->_varTerm && true == this->_varTerm->hasEvaluatedValue());
 }
 
 double psands_cisp430_a3::PolynomialTerm::getValue()
 {
 	if (true == this->canEvaluate())
 	{
-		return this->getExponent() * std::pow(this->getDblTerm(), this->getExponent());
-	}
+		if (true == this->hasDoubleTerm())
+		{
+			return this->getExponent() * std::pow(this->getDblTerm(), this->getExponent());
+		}
+		else if (nullptr != this->getVarTerm() && true == this->getVarTerm()->hasEvaluatedValue())
+		{
+			return this->getVarTerm()->getEvaluatedValue();
+		}
+	}	
 	return 0;
 }
 
