@@ -1,41 +1,55 @@
 #include "Variable.h"
+#include "Polynomial.h"
 
-psands_cisp430_a3::Variable::Variable() : Operand(0)
-{
-	this->_isInitialized = false;
-}
-
-psands_cisp430_a3::Variable::Variable(const std::string name) : Variable()
+psands_cisp430_a3::Variable::Variable(const std::string name)
 {
 	this->_name = name;
+	this->_isInitialized = false;
+	this->_polynomial = nullptr;
 }
 
-psands_cisp430_a3::Variable::Variable(const std::string name, const double value) : Variable(name)
+psands_cisp430_a3::Variable::Variable(const std::string name, Polynomial * polynomial)
 {
-	this->setValue(value);
+	this->_name = name;
+	this->_isInitialized = (nullptr != this->_polynomial);
+	this->_polynomial = polynomial;
 }
 
-psands_cisp430_a3::Variable::Variable(const Variable & variable) : Variable(variable._name, variable.getValue())
+psands_cisp430_a3::Variable::Variable(const Variable & variable)
+	: Variable(variable._name, variable._polynomial)
 {
-	this->_isInitialized = variable._isInitialized;
 }
 
-void psands_cisp430_a3::Variable::setValue(const double value)
+psands_cisp430_a3::Polynomial * psands_cisp430_a3::Variable::getValue() const
 {
-	Operand::setValue(value);
-	this->_isInitialized = true;
+	return this->_polynomial;
+}
+
+void psands_cisp430_a3::Variable::setValue(Polynomial * value)
+{
+	this->_polynomial = value;
 }
 
 std::string psands_cisp430_a3::Variable::toString() const
 {
-	if (true == this->_isInitialized)
-	{
-		return Operand::toString();
-	}
-	return this->_name;
+	return this->_polynomial->toString();
 }
 
 bool psands_cisp430_a3::Variable::isInitialized() const
 {
 	return this->_isInitialized;
+}
+
+bool psands_cisp430_a3::Variable::hasEvaluatedValue() const
+{
+	return nullptr != this->_polynomial && true == this->_polynomial->hasEvaluatedValue();
+}
+
+double psands_cisp430_a3::Variable::getEvaluatedValue() const
+{
+	if (true == this->hasEvaluatedValue())
+	{
+		return this->_polynomial->getEvaluatedValue();
+	}
+	return 0;
 }

@@ -77,21 +77,10 @@ std::string ExpressionEvaluator::getExpressionResult(string expression)
 		Token * currentToken = postfixTokenQueue->dequeue();
 		TokenType currentTokenType = currentToken->getTokenType();
 
-		if (OPERAND == currentTokenType)
+		if (TokenType::POLYNOMIALTERM == currentTokenType)
 		{
-			PolynomialTerm * operandTerm = new PolynomialTerm(1, 1, currentToken->getOperand());
+			PolynomialTerm * term = currentToken->getPolynomialTerm();
 
-			evaluationStack->push(operandTerm);
-
-			delete currentToken;
-		}
-		else if (VARIABLE == currentTokenType)
-		{
-			PolynomialTerm * operandTerm = new PolynomialTerm(1, 1, currentToken->getOperand());
-
-			evaluationStack->push(operandTerm);
-
-			delete currentToken;
 		}
 		else if (UNARYOPERATOR == currentTokenType)
 		{
@@ -106,24 +95,6 @@ std::string ExpressionEvaluator::getExpressionResult(string expression)
 		}
 		else if (ASSIGNMENTOPERATOR == currentTokenType)
 		{
-			Operand * assignedOperand = evaluationStack->pop();
-			Variable * assigneeOperand = ((Variable *)evaluationStack->pop());
-
-			assigneeOperand->setValue(assignedOperand->getValue());
-			evaluationStack->push(assigneeOperand);
-		}
-		else if (TokenType::POLYNOMIALTERM == currentTokenType)
-		{
-			PolynomialTerm * term = ((PolynomialTerm *)currentToken->getOperand());
-
-			if (true == term->canEvaluate())
-			{
-				evaluationStack->push(new Operand(term->getValue()));
-			}
-			else
-			{
-				evaluationStack->push(term);
-			}
 		}
 
 		if (UNARYOPERATOR == currentTokenType ||

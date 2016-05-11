@@ -3,6 +3,21 @@
 // Spring 2016
 // Assign 3
 
+/*
+
+Polynomial => an expression that may be made up of multiple polynomial terms
+
+Polynomial Term => an expression in the form of c_a * v ^ c_b, where c_a and c_b are constants
+					and v is a variable
+
+Variable => a variable is a storage container for a Polynomial (keeping in mind that a polynomial may be evaluated)
+
+
+
+
+*/
+
+
 #include <iostream>
 #include <string>
 #include <stdexcept> // invalid_argument exception

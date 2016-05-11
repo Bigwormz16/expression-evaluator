@@ -50,17 +50,19 @@ void Tokenizer::processOperand(std::string operand, bool isPrevTokenOperator, Qu
 		try
 		{
 			double doubleOperand = std::stod(operand);
-			tokenizedQueue->enqueue(new Token(operand, OPERAND, 0, new Operand(doubleOperand)));
+			PolynomialTerm * term = new PolynomialTerm(1, 1, doubleOperand);
+			tokenizedQueue->enqueue(new Token(operand, TokenType::POLYNOMIALTERM, 0, term));
 		}
 		catch(...)
 		{
-			Operand * oprnd = this->_symboltable->get(operand);
-			if (nullptr == oprnd)
+			Variable * var = this->_symboltable->get(operand);
+			if (nullptr == var)
 			{
-				oprnd = new Variable(operand);
-				this->_symboltable->insert(operand, oprnd);
+				var = new Variable(operand);
+				this->_symboltable->insert(operand, var);
 			}
-			tokenizedQueue->enqueue(new Token(operand, OPERAND, 0, oprnd));
+			PolynomialTerm * term = new PolynomialTerm(1, 1, var);
+			tokenizedQueue->enqueue(new Token(operand, TokenType::POLYNOMIALTERM, 0, term));
 		}
 	}
 }

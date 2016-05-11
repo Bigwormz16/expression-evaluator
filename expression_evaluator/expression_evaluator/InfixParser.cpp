@@ -75,17 +75,24 @@ psands_cisp430_a2::Queue<Token*>* psands_cisp430_a3::InfixParser::getPolynomialP
 		{
 			if (false == hasSetExponent)
 			{
-				term->setExponent(currentToken->getOperand()->getValue());
+				term->setExponent(currentToken->getPolynomialTerm()->getValue());
 				hasSetExponent = true;
 			}
 			else if (false == hasSetToken)
 			{
-				term->setOperand(currentToken->getOperand());
+				if (true == currentToken->getPolynomialTerm()->hasDoubleTerm())
+				{
+					term->setDblTerm(currentToken->getPolynomialTerm()->getValue());
+				}
+				else
+				{
+					term->setVarTerm(currentToken->getPolynomialTerm()->getVarTerm());
+				}
 				hasSetToken = true;
 			}
 			else if(true == hasCoefficient)
 			{
-				term->setCoefficient(currentToken->getOperand()->getValue());
+				term->setCoefficient(currentToken->getPolynomialTerm()->getValue());
 
 				isPolynomialTerm = false;
 				hasCoefficient = false;

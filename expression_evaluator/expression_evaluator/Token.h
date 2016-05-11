@@ -11,15 +11,12 @@
 
 #include <string>
 #include "AbstractOperator.h"
-#include "Operand.h"
 #include "PolynomialTerm.h"
 
 namespace psands_cisp430_a3
 {
 	enum TokenType
 	{
-		OPERAND,
-		VARIABLE,
 		POLYNOMIALTERM,
 		UNARYOPERATOR,
 		BINARYOPERATOR,
@@ -34,19 +31,19 @@ namespace psands_cisp430_a3
 		unsigned int _tokenPriority;
 		std::string _tokenSymbol;
 		TokenType _tokenType;
-		Operand * _operand;
+		PolynomialTerm * _term;
 		AbstractOperator * _abstractOperator;
 	public:
 		Token();
 		Token(std::string tokenSymbol, unsigned int tokenPriority);
 		Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority);
-		Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority, Operand * operand);
+		Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority, PolynomialTerm * term);
 		Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority, AbstractOperator * abstractOperator);
 		~Token();
 		unsigned int getTokenPriority();
 		std::string getTokenSymbol();
 		TokenType getTokenType();
-		Operand * getOperand();
+		PolynomialTerm * getPolynomialTerm();
 		AbstractOperator * getOperator();
 	};
 }

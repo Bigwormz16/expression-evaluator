@@ -5,7 +5,7 @@
 
 #include "Token.h"
 #include "AbstractOperator.h"
-#include "Operand.h"
+#include "PolynomialTerm.h"
 
 using namespace psands_cisp430_a3;
 
@@ -26,10 +26,10 @@ Token::Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPri
 	this->_tokenType = tokenType;
 }
 
-Token::Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority, Operand * operand)
+Token::Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority, PolynomialTerm * term)
 	: Token(tokenSymbol, tokenType, tokenPriority)
 {
-	this->_operand = operand;
+	this->_term = term;
 }
 
 Token::Token(std::string tokenSymbol, TokenType tokenType, unsigned int tokenPriority, AbstractOperator * abstractOperator)
@@ -57,9 +57,9 @@ TokenType Token::getTokenType()
 	return this->_tokenType;
 }
 
-Operand * Token::getOperand()
+PolynomialTerm * Token::getPolynomialTerm()
 {
-	return this->_operand;
+	return this->_term;
 }
 
 AbstractOperator * Token::getOperator()

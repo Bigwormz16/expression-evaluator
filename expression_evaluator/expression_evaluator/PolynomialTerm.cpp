@@ -1,25 +1,62 @@
 #include <stdexcept>
 #include "PolynomialTerm.h"
-#include "Operand.h"
 #include "Variable.h"
 #include <cmath>
 
 using namespace psands_cisp430_a3;
 
-psands_cisp430_a3::PolynomialTerm::PolynomialTerm() : PolynomialTerm(0, 0, nullptr)
+
+//PolynomialTerm psands_cisp430_a3::PolynomialTerm::operator+(const PolynomialTerm & polynomialTerm)
+//{
+//	PolynomialTerm result = PolynomialTerm(this->getCoefficient() + polynomialTerm.getCoefficient(), this->getExponent(), this->getOperand());
+//	return result;
+//}
+//
+//PolynomialTerm psands_cisp430_a3::PolynomialTerm::operator-(const PolynomialTerm & polynomialTerm)
+//{
+//	PolynomialTerm result = PolynomialTerm(this->getCoefficient() - polynomialTerm.getCoefficient(), this->getExponent(), this->getOperand());
+//	return result;
+//}
+//
+//PolynomialTerm psands_cisp430_a3::PolynomialTerm::operator*(const PolynomialTerm & polynomialTerm)
+//{
+//	PolynomialTerm result = PolynomialTerm(this->getCoefficient() * polynomialTerm.getCoefficient(), this->getExponent() + polynomialTerm.getExponent(), this->getOperand());
+//	return result;
+//}
+
+psands_cisp430_a3::PolynomialTerm::PolynomialTerm()
 {
 }
 
-psands_cisp430_a3::PolynomialTerm::PolynomialTerm(const double coefficient, const double exponent, Operand * operand)
+psands_cisp430_a3::PolynomialTerm::PolynomialTerm(const double dblTerm)
+	: PolynomialTerm(1, 1, dblTerm)
+{
+}
+
+psands_cisp430_a3::PolynomialTerm::PolynomialTerm(const double coefficient, const double exponent, const double dblTerm)
 {
 	this->setCoefficient(coefficient);
 	this->setExponent(exponent);
-	this->setOperand(operand);
+	this->setDblTerm(dblTerm);
+	this->_hasDblTerm = true;
+	this->setVarTerm(nullptr);
+}
+
+psands_cisp430_a3::PolynomialTerm::PolynomialTerm(const double coefficient, const double exponent, Variable * variable)
+{
+	this->setCoefficient(coefficient);
+	this->setExponent(exponent);
+	this->setVarTerm(variable);
+	this->_hasDblTerm = false;
 }
 
 psands_cisp430_a3::PolynomialTerm::PolynomialTerm(const PolynomialTerm & polynomialTerm)
-	: PolynomialTerm(polynomialTerm.getCoefficient(), polynomialTerm.getExponent(), polynomialTerm.getOperand())
 {
+	this->setCoefficient(polynomialTerm.getCoefficient());
+	this->setExponent(polynomialTerm.getExponent());
+	this->setDblTerm(polynomialTerm.getDblTerm());
+	this->setVarTerm(polynomialTerm.getVarTerm());
+	this->_hasDblTerm = polynomialTerm.hasDoubleTerm();
 }
 
 double psands_cisp430_a3::PolynomialTerm::getCoefficient() const
@@ -32,9 +69,19 @@ double psands_cisp430_a3::PolynomialTerm::getExponent() const
 	return this->_exponent;
 }
 
-Operand * psands_cisp430_a3::PolynomialTerm::getOperand() const
+Variable * psands_cisp430_a3::PolynomialTerm::getVarTerm() const
 {
-	return this->_operand;
+	return this->_varTerm;
+}
+
+double psands_cisp430_a3::PolynomialTerm::getDblTerm() const
+{
+	return this->_dblTerm;
+}
+
+bool psands_cisp430_a3::PolynomialTerm::hasDoubleTerm() const
+{
+	return this->_hasDblTerm;
 }
 
 void psands_cisp430_a3::PolynomialTerm::setCoefficient(const double coefficient)
@@ -47,42 +94,35 @@ void psands_cisp430_a3::PolynomialTerm::setExponent(const double exponent)
 	this->_exponent = exponent;
 }
 
-void psands_cisp430_a3::PolynomialTerm::setOperand(Operand * operand)
+void psands_cisp430_a3::PolynomialTerm::setVarTerm(Variable * varTerm)
 {
-	this->_operand = operand;
+	this->_varTerm = varTerm;
+}
+
+void psands_cisp430_a3::PolynomialTerm::setDblTerm(const double dblTerm)
+{
+	this->_dblTerm = dblTerm;
 }
 
 bool psands_cisp430_a3::PolynomialTerm::canEvaluate()
 {
-	Variable * var = (Variable *) this->getOperand();
-	return var->isInitialized();
+	return this->hasDoubleTerm();
 }
 
 double psands_cisp430_a3::PolynomialTerm::getValue()
 {
-	return std::pow(this->getOperand()->getValue(), this->getExponent()) * this->getCoefficient();
+	if (true == this->canEvaluate())
+	{
+		return this->getExponent() * std::pow(this->getDblTerm(), this->getExponent());
+	}
+	return 0;
 }
 
-
-PolynomialTerm psands_cisp430_a3::PolynomialTerm::operator+(const PolynomialTerm & polynomialTerm)
+std::string psands_cisp430_a3::PolynomialTerm::toString()
 {
-	PolynomialTerm result = PolynomialTerm(this->getCoefficient() + polynomialTerm.getCoefficient(), this->getExponent(), this->getOperand());
-	return result;
-}
-
-PolynomialTerm psands_cisp430_a3::PolynomialTerm::operator-(const PolynomialTerm & polynomialTerm)
-{
-	PolynomialTerm result = PolynomialTerm(this->getCoefficient() - polynomialTerm.getCoefficient(), this->getExponent(), this->getOperand());
-	return result;
-}
-
-PolynomialTerm psands_cisp430_a3::PolynomialTerm::operator*(const PolynomialTerm & polynomialTerm)
-{
-	PolynomialTerm result = PolynomialTerm(this->getCoefficient() * polynomialTerm.getCoefficient(), this->getExponent() + polynomialTerm.getExponent(), this->getOperand());
-	return result;
-}
-
-std::string psands_cisp430_a3::PolynomialTerm::toString() const
-{
-	return std::to_string(this->getCoefficient()) + " * " + this->getOperand()->toString() + " ^ " + std::to_string(this->getExponent());
+	if (true == this->canEvaluate())
+	{
+		return std::to_string(this->getValue());
+	}
+	return std::to_string(this->getExponent()) + " * (" + this->getVarTerm()->toString() + ") ^ " + std::to_string(this->getExponent());
 }

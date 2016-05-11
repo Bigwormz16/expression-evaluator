@@ -27,11 +27,11 @@ int Symboltable::hashFunction(std::string key)
 	return hashValue;
 }
 
-Symboltable::Symboltable() : Hashtable<std::string, Operand *>()
+Symboltable::Symboltable() : Hashtable<std::string, Variable *>()
 {
 }
 
-Symboltable::Symboltable(int maxBucket, int maxSlots, int maxOverflowBuckets) : Hashtable<std::string, Operand *>(maxBucket, maxSlots, maxOverflowBuckets)
+Symboltable::Symboltable(int maxBucket, int maxSlots, int maxOverflowBuckets) : Hashtable<std::string, Variable *>(maxBucket, maxSlots, maxOverflowBuckets)
 {
 }
 
