@@ -47,6 +47,13 @@ namespace psands_cisp430_a3
 		bool canAdd(PolynomialTerm * term);
 		bool canSubtract(PolynomialTerm * term);
 		bool canMultiply(PolynomialTerm * term);
+
+		void add(PolynomialTerm * term);
+		void subtract(PolynomialTerm * term);
+		void multiply(PolynomialTerm * term);
+
+		bool isTermWrapper();
+		PolynomialTerm * getInnerTerm();
 	};
 }
 

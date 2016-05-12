@@ -42,7 +42,7 @@ void ExpressionEvaluator::setExpression(string expression)
 	this->_expression = expression;
 }
 
-std::string ExpressionEvaluator::getExpressionResult()
+Polynomial * ExpressionEvaluator::getExpressionResult()
 {
 	return this->getExpressionResult(this->_expression);
 }
@@ -57,7 +57,7 @@ std::string ExpressionEvaluator::getExpressionResult()
 		the result of the operation method is added to the evaluation stack
 		a well-formed postfix expression should result in a single value remaining in the evaluation stack, which is the result of the expression.
 */
-std::string ExpressionEvaluator::getExpressionResult(string expression)
+Polynomial * ExpressionEvaluator::getExpressionResult(string expression)
 {
 	Queue<Token *> * infixTokenQueue = this->_tokenizer->getTokenQueue(expression);
 	Queue<Token *> * postfixTokenQueue = this->_infixParser->getPostfixTokenQueue(infixTokenQueue);
@@ -139,7 +139,7 @@ std::string ExpressionEvaluator::getExpressionResult(string expression)
 	delete postfixTokenQueue;
 	delete operandsToEvaluate;
 
-	return result->toString();
+	return result;
 }
 
 void ExpressionEvaluator::evaluateExpression()

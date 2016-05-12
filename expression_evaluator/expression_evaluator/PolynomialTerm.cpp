@@ -102,6 +102,7 @@ void psands_cisp430_a3::PolynomialTerm::setVarTerm(Variable * varTerm)
 void psands_cisp430_a3::PolynomialTerm::setDblTerm(const double dblTerm)
 {
 	this->_dblTerm = dblTerm;
+	this->_hasDblTerm = true;
 }
 
 bool psands_cisp430_a3::PolynomialTerm::canEvaluate()
@@ -115,7 +116,7 @@ double psands_cisp430_a3::PolynomialTerm::getValue()
 	{
 		if (true == this->hasDoubleTerm())
 		{
-			return this->getExponent() * std::pow(this->getDblTerm(), this->getExponent());
+			return this->getCoefficient() * std::pow(this->getDblTerm(), this->getExponent());
 		}
 		else if (nullptr != this->getVarTerm() && true == this->getVarTerm()->hasEvaluatedValue())
 		{
@@ -131,28 +132,114 @@ std::string psands_cisp430_a3::PolynomialTerm::toString()
 	{
 		return std::to_string(this->getValue());
 	}
-	return std::to_string(this->getExponent()) + " * (" + this->getVarTerm()->toString() + ") ^ " + std::to_string(this->getExponent());
+	return std::to_string(this->getCoefficient()) + " * (" + this->getVarTerm()->toString() + ") ^ " + std::to_string(this->getExponent());
 }
 
 bool psands_cisp430_a3::PolynomialTerm::canAdd(PolynomialTerm * term)
 {
 	if (nullptr != term && nullptr != this)
 	{
-		if (true == this->canEvaluate() &&
-			true == term->canEvaluate())
+		if (true == this->canEvaluate() && true == term->canEvaluate())
 		{
 			return true;
 		}
-		else if((true == this->canEvaluate() && )
+		else if (this->getVarTerm()->getName() == term->getVarTerm()->getName() &&
+			this->getExponent() == term->getExponent())
+		{
+			return true;
+		}
 	}
+	return false;
 }
 
 bool psands_cisp430_a3::PolynomialTerm::canSubtract(PolynomialTerm * term)
 {
-	return false;
+	return this->canAdd(term);
 }
 
 bool psands_cisp430_a3::PolynomialTerm::canMultiply(PolynomialTerm * term)
 {
+	if (nullptr != term && nullptr != this)
+	{
+		if (true == this->canEvaluate() && true == term->canEvaluate())
+		{
+			return true;
+		}
+		else if (this->getVarTerm()->getName() == term->getVarTerm()->getName())
+		{
+			return true;
+		}
+	}
 	return false;
+}
+
+void psands_cisp430_a3::PolynomialTerm::add(PolynomialTerm * term)
+{
+	if (true == this->canEvaluate() && true == term->canEvaluate())
+	{
+		double result = this->getValue() + term->getValue();
+		this->setCoefficient(1);
+		this->setExponent(1);
+		this->setDblTerm(result);
+	}
+	else if (this->getVarTerm()->getName() == term->getVarTerm()->getName() &&
+		this->getExponent() == term->getExponent())
+	{
+		double result = this->getCoefficient() + term->getCoefficient();
+		this->setCoefficient(result);
+	}
+}
+void psands_cisp430_a3::PolynomialTerm::subtract(PolynomialTerm * term)
+{
+	if (true == this->canEvaluate() && true == term->canEvaluate())
+	{
+		double result = this->getValue() - term->getValue();
+		this->setCoefficient(1);
+		this->setExponent(1);
+		this->setDblTerm(result);
+	}
+	else if (this->getVarTerm()->getName() == term->getVarTerm()->getName() &&
+		this->getExponent() == term->getExponent())
+	{
+		double result = this->getCoefficient() - term->getCoefficient();
+		this->setCoefficient(result);
+	}
+}
+void psands_cisp430_a3::PolynomialTerm::multiply(PolynomialTerm * term)
+{
+	if (true == this->canEvaluate() && true == term->canEvaluate())
+	{
+		double result = this->getValue() * term->getValue();
+		this->setCoefficient(1);
+		this->setExponent(1);
+		this->setDblTerm(result);
+	}
+	else if (this->getVarTerm()->getName() == term->getVarTerm()->getName())
+	{
+		double result = this->getCoefficient() * term->getCoefficient();
+		this->setCoefficient(result);
+
+		result = this->getExponent() + term->getExponent();
+		this->setExponent(result);
+	}
+}
+
+bool psands_cisp430_a3::PolynomialTerm::isTermWrapper()
+{
+	if (nullptr != this->getVarTerm())
+	{
+		if (nullptr != this->getVarTerm()->getValue())
+		{
+			if (true == this->getVarTerm()->getValue()->isTerm())
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+PolynomialTerm * psands_cisp430_a3::PolynomialTerm::getInnerTerm()
+{
+	return this->getVarTerm()->getValue()->getTerm();
 }

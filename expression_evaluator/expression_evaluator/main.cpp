@@ -29,7 +29,7 @@ using namespace psands_cisp430_a2;
 using namespace psands_cisp430_a3;
 
 string getReportHeader();
-void generateExpressionReport(string fileName = "expression-report.txt");
+void generateExpressionReport(string fileName = "expression-report.txt") {}
 
 int displayMainMenu();
 void displayInteractiveExpressionEvaluator();
@@ -93,10 +93,6 @@ int main(void)
 		{
 			displayInteractiveExpressionEvaluator();
 		}
-		else if (2 == userChoice)
-		{
-			displayReportGenerator();
-		}
 
 	}
 
@@ -110,56 +106,56 @@ string getReportHeader()
 	return "Peter Sands\nW1541805\nCISP 430 WED 6:30\nSpring 2016\nAssign 3\n";
 }
 
-void generateExpressionReport(string fileName)
-{
-	Report expressionReport;
-	expressionReport.setReportHeader(getReportHeader());
-	expressionReport.setReportTitle("\t\t\tExpression Evaluator Report\n\n");
-
-	expressionReport.addContent("Goal: To demonstrate expression evaluation and assignment of evaluation to variables.\n");
-	expressionReport.addContent("Demonstration will consist of evaluating expressions provided in assignment.\n\n");
-
-	ExpressionEvaluator * evaluator = new ExpressionEvaluator();
-	expressionReport.addContent("Assigning value 5 to variable alpha with expression: \n\t\"alpha = 5\"\n");
-	evaluator->evaluateExpression("alpha = 5");
-	expressionReport.addContent("Assigning value 10 to variable beta with expression: \n\t\"beta = 10\"\n");
-	evaluator->evaluateExpression("beta = 10");
-	expressionReport.addContent("Assigning sum of alpha and beta to variable alpha1 with expression: \n\t\"alpha1 = alpha + beta\"\n");
-	evaluator->evaluateExpression("alpha1 = alpha + beta");
-	expressionReport.addContent("Retrieving value of alpha1: " + evaluator->getExpressionResult("alpha1") + "\n");
-
-	// expression valuator cannot handle sign operator
-	// using expression that will evaluate to -1 for assignment
-	expressionReport.addContent("Assigning result of -1 to variable gamma with expression: \n\t\"gamma = -1\"\n");
-	evaluator->evaluateExpression("gamma = -1");
-	expressionReport.addContent("Assigning value 2 to variable delta with expression: \n\t\"delta = 2\"\n");
-	evaluator->evaluateExpression("delta = 2");
-
-	expressionReport.addContent("\nRetrieving value of alpha: " + evaluator->getExpressionResult("alpha") + "\n");
-	expressionReport.addContent("Retrieving value of beta: " + evaluator->getExpressionResult("beta") + "\n");
-	expressionReport.addContent("Retrieving value of gamma: " + evaluator->getExpressionResult("gamma") + "\n");
-	expressionReport.addContent("Retrieving value of delta: " + evaluator->getExpressionResult("delta") + "\n\n");
-
-	expressionReport.addContent("Assigning alpha value of expression: \n\t\"alpha + beta / gamma * delta\"\n");
-	evaluator->evaluateExpression("alpha = alpha + beta / gamma * delta");
-	expressionReport.addContent("Retrieving value of alpha: " + evaluator->getExpressionResult("alpha") + "\n\n");
-
-	expressionReport.addContent("Assigning beta value of expression: \n\t\"5 / 2.00 + alpha\"\n");
-	evaluator->evaluateExpression("beta = 5 / 2.00 + alpha");
-	expressionReport.addContent("Retrieving value of beta: " + evaluator->getExpressionResult("beta") + "\n\n");
-
-	expressionReport.addContent("Assigning gamma value of expression: \n\t\"sin(alpha) + (gamma-delta) * 3\"\n");
-	evaluator->evaluateExpression("gamma = sin(alpha) + (gamma-delta) * 3");
-	expressionReport.addContent("Retrieving value of gamma: " + evaluator->getExpressionResult("gamma") + "\n\n");
-
-	expressionReport.addContent("Assigning delta value of expression: \n\t\"alpha - beta * gamma / delta\"\n");
-	evaluator->evaluateExpression("delta = alpha - beta * gamma / delta");
-	expressionReport.addContent("Retrieving value of delta: " + evaluator->getExpressionResult("delta") + "\n\n");
-
-	delete evaluator;
-
-	expressionReport.saveReport(fileName);
-}
+//void generateExpressionReport(string fileName)
+//{
+//	Report expressionReport;
+//	expressionReport.setReportHeader(getReportHeader());
+//	expressionReport.setReportTitle("\t\t\tExpression Evaluator Report\n\n");
+//
+//	expressionReport.addContent("Goal: To demonstrate expression evaluation and assignment of evaluation to variables.\n");
+//	expressionReport.addContent("Demonstration will consist of evaluating expressions provided in assignment.\n\n");
+//
+//	ExpressionEvaluator * evaluator = new ExpressionEvaluator();
+//	expressionReport.addContent("Assigning value 5 to variable alpha with expression: \n\t\"alpha = 5\"\n");
+//	evaluator->evaluateExpression("alpha = 5");
+//	expressionReport.addContent("Assigning value 10 to variable beta with expression: \n\t\"beta = 10\"\n");
+//	evaluator->evaluateExpression("beta = 10");
+//	expressionReport.addContent("Assigning sum of alpha and beta to variable alpha1 with expression: \n\t\"alpha1 = alpha + beta\"\n");
+//	evaluator->evaluateExpression("alpha1 = alpha + beta");
+//	expressionReport.addContent("Retrieving value of alpha1: " + evaluator->getExpressionResult("alpha1") + "\n");
+//
+//	// expression valuator cannot handle sign operator
+//	// using expression that will evaluate to -1 for assignment
+//	expressionReport.addContent("Assigning result of -1 to variable gamma with expression: \n\t\"gamma = -1\"\n");
+//	evaluator->evaluateExpression("gamma = -1");
+//	expressionReport.addContent("Assigning value 2 to variable delta with expression: \n\t\"delta = 2\"\n");
+//	evaluator->evaluateExpression("delta = 2");
+//
+//	expressionReport.addContent("\nRetrieving value of alpha: " + evaluator->getExpressionResult("alpha") + "\n");
+//	expressionReport.addContent("Retrieving value of beta: " + evaluator->getExpressionResult("beta") + "\n");
+//	expressionReport.addContent("Retrieving value of gamma: " + evaluator->getExpressionResult("gamma") + "\n");
+//	expressionReport.addContent("Retrieving value of delta: " + evaluator->getExpressionResult("delta") + "\n\n");
+//
+//	expressionReport.addContent("Assigning alpha value of expression: \n\t\"alpha + beta / gamma * delta\"\n");
+//	evaluator->evaluateExpression("alpha = alpha + beta / gamma * delta");
+//	expressionReport.addContent("Retrieving value of alpha: " + evaluator->getExpressionResult("alpha") + "\n\n");
+//
+//	expressionReport.addContent("Assigning beta value of expression: \n\t\"5 / 2.00 + alpha\"\n");
+//	evaluator->evaluateExpression("beta = 5 / 2.00 + alpha");
+//	expressionReport.addContent("Retrieving value of beta: " + evaluator->getExpressionResult("beta") + "\n\n");
+//
+//	expressionReport.addContent("Assigning gamma value of expression: \n\t\"sin(alpha) + (gamma-delta) * 3\"\n");
+//	evaluator->evaluateExpression("gamma = sin(alpha) + (gamma-delta) * 3");
+//	expressionReport.addContent("Retrieving value of gamma: " + evaluator->getExpressionResult("gamma") + "\n\n");
+//
+//	expressionReport.addContent("Assigning delta value of expression: \n\t\"alpha - beta * gamma / delta\"\n");
+//	evaluator->evaluateExpression("delta = alpha - beta * gamma / delta");
+//	expressionReport.addContent("Retrieving value of delta: " + evaluator->getExpressionResult("delta") + "\n\n");
+//
+//	delete evaluator;
+//
+//	expressionReport.saveReport(fileName);
+//}
 
 /*
 	Displays main menu with options and returns result of user selection
@@ -168,7 +164,6 @@ int displayMainMenu()
 {
 	cout << "\n\n\n\n\t\t" << "Assignment 3 Expression Evaluator" << endl;
 	cout << "\n\n\t" << "1 - Interactive Expression Evaluator" << endl;
-	cout << "\t2 - Generate Expression Report" << endl;
 	cout << "\tQ - Quit" << endl;
 	cout << "\n\n\tChoice: ";
 
@@ -202,6 +197,10 @@ void displayInteractiveExpressionEvaluator()
 	string userInput = "";
 	bool continueExpressionEvaluation = true;
 
+	Report expressionReport;
+	expressionReport.setReportHeader(getReportHeader());
+	expressionReport.setReportTitle("\t\t\tExpression Evaluator Report\n\n");
+
 	while (true == continueExpressionEvaluation)
 	{
 		cout << "\tEnter an expression to evaluate, or\n\tVariable name to see current value, or\n\tQ to quit\n\n\t";
@@ -219,8 +218,12 @@ void displayInteractiveExpressionEvaluator()
 			// catch invalid_argument as ill-formed expressions
 			try
 			{
-				string expressionResult = evaluator->getExpressionResult(userInput);
-				cout << "\n\tEvaluated Result: " << expressionResult << "\n";
+				Polynomial * expressionResult = evaluator->getExpressionResult(userInput);
+				cout << "\n\tEvaluated Result: " << expressionResult->toString() << endl;
+				cout << "\tDegree: " << expressionResult->getDegree() << endl;
+				expressionReport.addContent("\tUser Input: " + userInput + "\n\n");
+				expressionReport.addContent("\n\tEvaluated Result : " + expressionResult->toString() + "\n");
+				expressionReport.addContent("\tDegree: " + expressionResult->getDegree() + "\n");
 			}
 			catch (const invalid_argument & ex)
 			{
@@ -228,7 +231,10 @@ void displayInteractiveExpressionEvaluator()
 			}
 		}
 		cout << "\n\n\n\n";
+		expressionReport.addContent("\n\n");
 	}
+
+	expressionReport.saveReport("expression-report.txt");
 
 	delete evaluator;
 }

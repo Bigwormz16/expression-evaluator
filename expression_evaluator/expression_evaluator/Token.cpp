@@ -59,6 +59,10 @@ TokenType Token::getTokenType()
 
 PolynomialTerm * Token::getPolynomialTerm()
 {
+	if (true == this->_term->isTermWrapper())
+	{
+		return this->_term->getInnerTerm();
+	}
 	return this->_term;
 }
 

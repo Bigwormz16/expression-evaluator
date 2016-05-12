@@ -32,6 +32,10 @@ void psands_cisp430_a3::Variable::setValue(Polynomial * value)
 
 std::string psands_cisp430_a3::Variable::toString() const
 {
+	if (false == this->_isInitialized || nullptr == this->_polynomial)
+	{
+		return this->_name;
+	}
 	return this->_polynomial->toString();
 }
 
@@ -42,7 +46,7 @@ bool psands_cisp430_a3::Variable::isInitialized() const
 
 bool psands_cisp430_a3::Variable::hasEvaluatedValue() const
 {
-	return nullptr != this->_polynomial && true == this->_polynomial->hasEvaluatedValue();
+	return true == this->_isInitialized && nullptr != this->_polynomial && true == this->_polynomial->hasEvaluatedValue();
 }
 
 double psands_cisp430_a3::Variable::getEvaluatedValue() const
@@ -52,4 +56,9 @@ double psands_cisp430_a3::Variable::getEvaluatedValue() const
 		return this->_polynomial->getEvaluatedValue();
 	}
 	return 0;
+}
+
+std::string psands_cisp430_a3::Variable::getName()
+{
+	return this->_name;
 }

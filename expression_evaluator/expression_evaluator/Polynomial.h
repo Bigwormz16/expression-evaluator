@@ -22,6 +22,11 @@ namespace psands_cisp430_a3
 
 		bool hasEvaluatedValue() const;
 		double getEvaluatedValue() const;
+
+		bool isTerm();
+		PolynomialTerm * getTerm();
+
+		std::string getDegree() const;
 	};
 }
 

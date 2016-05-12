@@ -22,6 +22,7 @@ namespace psands_cisp430_a3
 		bool isInitialized() const;
 		bool hasEvaluatedValue() const;
 		double getEvaluatedValue() const;
+		std::string getName();
 	};
 }
 
