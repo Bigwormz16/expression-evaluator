@@ -133,3 +133,26 @@ std::string psands_cisp430_a3::PolynomialTerm::toString()
 	}
 	return std::to_string(this->getExponent()) + " * (" + this->getVarTerm()->toString() + ") ^ " + std::to_string(this->getExponent());
 }
+
+bool psands_cisp430_a3::PolynomialTerm::canAdd(PolynomialTerm * term)
+{
+	if (nullptr != term && nullptr != this)
+	{
+		if (true == this->canEvaluate() &&
+			true == term->canEvaluate())
+		{
+			return true;
+		}
+		else if((true == this->canEvaluate() && )
+	}
+}
+
+bool psands_cisp430_a3::PolynomialTerm::canSubtract(PolynomialTerm * term)
+{
+	return false;
+}
+
+bool psands_cisp430_a3::PolynomialTerm::canMultiply(PolynomialTerm * term)
+{
+	return false;
+}

@@ -26,7 +26,7 @@ void psands_cisp430_a3::Polynomial::add(PolynomialTerm * term)
 			lt->setExponent(1);
 			shouldAdd = false;
 		}
-		
+		else if()
 	}
 
 	if (true == shouldAdd)

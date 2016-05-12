@@ -43,6 +43,10 @@ namespace psands_cisp430_a3
 		//PolynomialTerm operator*(const PolynomialTerm & polynomialTerm);
 
 		virtual std::string toString();
+
+		bool canAdd(PolynomialTerm * term);
+		bool canSubtract(PolynomialTerm * term);
+		bool canMultiply(PolynomialTerm * term);
 	};
 }
 
