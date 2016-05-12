@@ -103,7 +103,7 @@ int main(void)
 
 string getReportHeader()
 {
-	return "Peter Sands\nW1541805\nCISP 430 WED 6:30\nSpring 2016\nAssign 3\n";
+	return "Peter Sands\nW1541805\nCISP 430 WED 6:30\nSpring 2016\nFINAL - 3\n";
 }
 
 //void generateExpressionReport(string fileName)
